@@ -11,7 +11,7 @@ Contributor guide. If you're running the app rather than working on it, see [dep
 | p7zip-full  | any modern | Only needed if you run the importer locally. CI installs it; container too. |
 | sqlite3 CLI | optional   | Convenient for inspecting `bookkeeprr.dev.db` while developing.             |
 
-> **pnpm is mandatory.** The Dockerfile, GitHub CI, and GitLab CI all use pnpm. Mixing package managers will corrupt the lockfile. If `pnpm` isn't on your PATH, enable corepack: `corepack enable && corepack prepare pnpm@9.15.0 --activate`.
+> **pnpm is mandatory.** The Dockerfile and GitHub CI both use pnpm. Mixing package managers will corrupt the lockfile. If `pnpm` isn't on your PATH, enable corepack: `corepack enable && corepack prepare pnpm@9.15.0 --activate`.
 
 ## Getting started
 
@@ -180,29 +180,23 @@ The design system is enforced via CSS variable tokens in `apps/web/src/app/globa
 
 ## CI
 
-Two CI pipelines run in parallel.
+CI runs on GitHub Actions (`.github/workflows/`).
 
-### GitHub Actions (`.github/workflows/ci.yml`)
+### `ci.yml` - web app
 
-Triggered on push to `main`, all PRs, and manual dispatch.
+Triggered on push to `main`, pull requests, published releases, and manual dispatch.
 
-**`test` job** (15-min timeout):
+**`test` job:** install p7zip-full, `pnpm install --frozen-lockfile`, then `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, and `pnpm test` (with `BOOKKEEPRR_7Z_BIN=7z`).
 
-1. Install p7zip-full.
-2. `pnpm install --frozen-lockfile`.
-3. `pnpm format:check`.
-4. `pnpm lint`.
-5. `pnpm typecheck`.
-6. `pnpm test` with `BOOKKEEPRR_7Z_BIN=7z`.
+**`image` job:** on a published release (or manual dispatch), builds and pushes the web app image to `ghcr.io/paulcsiki/bookkeeprr`, tagged `latest` plus the semver version (`X.Y.Z` and `X.Y`).
 
-**`image` job** (30-min timeout, runs only on main push if `test` passes):
+### `website-ci.yml` - marketing site
 
-- Builds and pushes `ghcr.io/paulcsiki/bookkeeprr:latest` to GitHub Container Registry.
-- **Only `:latest` is published** - no per-commit, no per-sha tags. (Configured via `type=raw,value=latest` in `docker/metadata-action`.)
+Lints, type-checks, and builds the static export; on a published release, builds and pushes `ghcr.io/paulcsiki/bookkeeprr-website:latest`.
 
-### GitLab CI (`.gitlab-ci.yml`)
+### `e2e.yml` - end-to-end
 
-Parallel jobs: `lint`, `test`, `build`, `image`, `publish`. Publishes to the self-hosted GitLab registry. Both CIs run for now; either can be dropped later.
+Manual-dispatch Playwright + Docker E2E suite.
 
 ## Development history
 

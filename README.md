@@ -48,7 +48,7 @@ bookkeeprr ships as a single image. Drop this `docker-compose.yml` into your sta
 ```yaml
 services:
   bookkeeprr:
-    image: ghcr.io/paulcsiki/bookkeeprr:1.0.2   # or :latest for the newest build
+    image: ghcr.io/paulcsiki/bookkeeprr:1.0.3   # or :latest for the newest build
     container_name: bookkeeprr
     restart: unless-stopped
     ports:

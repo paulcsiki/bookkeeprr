@@ -130,7 +130,7 @@ jobs:
           build-args: |
             BOOKKEEPRR_COMMIT=${{ github.sha }}
             BOOKKEEPRR_BUILT_AT=${{ steps.build_ts.outputs.ts }}
-          outputs: type=image,name=${{ env.REGISTRY }}/${{ github.repository }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=${{ env.REGISTRY }}/${{ github.repository }},push-by-digest=true,name-canonical=true,push=true,oci-mediatypes=true
           provenance: false
           cache-from: type=gha,scope=${{ env.PLATFORM_PAIR }}
           cache-to: type=gha,mode=max,scope=${{ env.PLATFORM_PAIR }}

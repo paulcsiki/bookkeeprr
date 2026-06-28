@@ -1,0 +1,58 @@
+# System group — Home dashboard greeting + avatar (Android).
+#
+# Exercises the cached-profile path that powers the Home dashboard header:
+#   1. Reach the Home dashboard after the AUTOAUTH onboarding session.
+#   2. Assert the personalized greeting AppBar title is present. The header reads
+#      `${greeting()}, ${name}` where greeting() is time-of-day-dependent ("Good
+#      morning" / "Good afternoon" / "Good evening" / "Late night") and `name` is
+#      firstName(profile.displayName ?? profile.username ?? greetingName). Under
+#      the AUTOAUTH session the profile is served by the in-app e2e fetch mock
+#      (src/lib/e2e-fetch-mock.ts: GET /api/me → { username: 'admin',
+#      displayName: null }), so the title ends in ", admin". We assert the
+#      ", admin" suffix via regex — robust to whichever greeting word the wall
+#      clock yields — and assert the title is NOT the literal ", reader" fallback
+#      (firstName returns "reader" only when name is null/empty). This proves the
+#      cached profile rendered rather than the empty-profile fallback.
+#   3. Assert the `home-avatar` testID (the AppBar trailing Avatar, HomeDashboard
+#      line 312) — the avatar from A4 — which independently proves the
+#      cached-profile path rendered the header.
+#
+# Modeled on tests/e2e/system/offline.yaml (header/env/style) and the Home-tab
+# navigation pattern from library/continue-reading-remove.yaml. Android-only to
+# mirror the other system flows. Relies on the AUTOAUTH session from the
+# connected onboarding flow.
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android (see library-list.yaml / cloud.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+
+# The dashboard lives on the Home tab. Android Maestro on the tab bar's Pressable
+# can need a second tap (the second is a no-op if Home is already focused) — same
+# pattern as continue-reading-remove.yaml. extendedWaitUntil absorbs the tab
+# switch + the dashboard's first render (profile cache hydrate + dashboard query).
+- tapOn:
+    id: 'tab-home'
+    repeat: 2
+- extendedWaitUntil:
+    visible: { id: 'screen-home' }
+    timeout: 10000
+
+# ── (a) personalized greeting: the AppBar title ends in ", admin" (the mocked
+#        profile username), never the "reader" fallback. Regex tolerates the
+#        time-of-day greeting word. The mono subtitle "YOUR READING ROOM"
+#        confirms the large header committed.
+- extendedWaitUntil:
+    visible: { text: '.*, admin' }
+    timeout: 15000
+- assertVisible: { text: '.*, admin' }
+- assertNotVisible: { text: '.*, reader' }
+- assertVisible: { text: 'YOUR READING ROOM' }
+
+# ── (b) the avatar (A4) is present, proving the cached-profile path rendered.
+- assertVisible: { id: 'home-avatar' }

@@ -1,0 +1,21 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_ENABLED: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_AUTOGRANT: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_FIRE: '1'
+---
+# Sign in + opt the user in to push via the shared subflow. Subflow ends
+# on the `screen-push-notifications` screen.
+- runFlow: { file: ./permission-grant-and-register.yaml }
+# Cold-restart the app (auth state survives in AsyncStorage; no clearState)
+# so the e2e bootstrap's 3s synthetic-push timer fires AFTER we've reached
+# the library home — otherwise the banner would have appeared (and
+# auto-dismissed) during onboarding.
+- launchApp: {}
+- assertVisible: { id: 'screen-library-grid' }
+- extendedWaitUntil:
+    visible: { id: 'in-app-banner' }
+    timeout: 8000
+- assertVisible: 'Synthetic test push'

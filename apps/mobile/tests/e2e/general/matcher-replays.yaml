@@ -1,0 +1,41 @@
+# General group — Matcher replay history flow (mocked).
+# Modeled on tests/e2e/general/matcher.yaml: AUTOAUTH admin session from the
+# connected onboarding flow, in-app fetch mock serving the shared Jest
+# fixtures (fixtureReplayRuns / fixtureReplayDiffs). Asserts the replay
+# history list renders under the matcher forms and that tapping a run opens
+# its detail sheet.
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-matcher' }
+    centerElement: true
+- tapOn: { id: 'row-matcher' }
+- assertVisible: { id: 'screen-matcher' }
+# The replay history section sits below the weights + adult-filter forms.
+- scrollUntilVisible:
+    element: { id: 'replay-history-list' }
+    centerElement: true
+# Run #12 is the completed fixture run with diff rows behind it. CENTER the
+# row before tapping: scrollUntilVisible stops at "barely visible", which on
+# the phone leaves this last-section card hugging the floating tab bar — the
+# tap's center point then lands on the bar, the press never reaches the row,
+# and no sheet opens (job 2868 failure screenshot: list visible, no sheet).
+- scrollUntilVisible:
+    element: { id: 'replay-run-12' }
+    centerElement: true
+- tapOn: { id: 'replay-run-12' }
+# Assert the sheet by row CONTENT, not container ids: sheet/row container
+# Views can be absent from the iOS AX snapshot (see reader-audio.yaml), while
+# Texts in plain Views always surface (activity-superseded relies on that).
+# Row 501's release title is unique to the open sheet; escape the regex
+# metacharacters Maestro treats text patterns as.
+- extendedWaitUntil:
+    visible: '.*Ironworks.* Vinland Saga v05 .*'
+    timeout: 10000

@@ -1,0 +1,42 @@
+{
+  "name": "@bookkeeprr/website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "openapi:snapshot": "pnpm --filter @bookkeeprr/web openapi:emit ../../apps/website/public/openapi.json",
+    "predev": "pnpm openapi:snapshot && node -e \"require('fs').accessSync('public/openapi.json')\"",
+    "prebuild": "pnpm openapi:snapshot && node -e \"require('fs').accessSync('public/openapi.json')\"",
+    "dev": "next dev",
+    "dev:fresh": "rm -rf .next && next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bookkeeprr/logic": "workspace:*",
+    "@bookkeeprr/tokens": "workspace:*",
+    "@bookkeeprr/types": "workspace:*",
+    "@bookkeeprr/ui": "workspace:*",
+    "@stoplight/elements": "^9.0.22",
+    "@stoplight/mosaic": "^1.53.5",
+    "lucide-react": "^1.17.0",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "^16.2.7",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.4.1",
+    "eslint-config-next": "^16.2.7",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1"
+  }
+}

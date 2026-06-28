@@ -1,0 +1,39 @@
+appId: com.bookkeeprr.app
+# Library groups — move: long-press an UNGROUPED series at the root, pick a
+# group in the Move-to-group sheet, confirm, then descend into the group and
+# find the moved card there. The in-app fetch mock is STATEFUL: the
+# PATCH /api/series/1 {groupId: 1} write updates the membership the next
+# GET /api/series reflects (src/lib/e2e-fetch-mock.ts).
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+# Vinland Saga (grid-card-1) is ungrouped at the root; group-row-1 ('Shonen')
+# renders above the grid once the groups query resolves.
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000
+- scrollUntilVisible:
+    element: { id: 'grid-card-1' }
+    centerElement: true
+- longPressOn: { id: 'grid-card-1' }
+# iOS occlusion-culls full-bleed sheet containers from the AX snapshot —
+# assert interactive children, never the sheet root (memory rule #7).
+- assertVisible: { id: 'move-row-root' }
+# Select 'Shonen' (selection ≠ current group arms the Move button) → confirm.
+- tapOn: { id: 'move-row-1' }
+- tapOn: { id: 'move-confirm' }
+- assertNotVisible: { id: 'move-confirm' }
+# The query invalidation refetches the list; the moved card leaves the root's
+# UNGROUPED section. Descend into the group and find it there.
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000
+- tapOn: { id: 'group-row-1' }
+- assertVisible: { id: 'group-back-chip' }
+- extendedWaitUntil:
+    visible: { id: 'grid-card-1' }
+    timeout: 10000

@@ -1,0 +1,12 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+---
+- launchApp: { clearState: true }
+- tapOn: { id: 'btn-get-started' }
+- tapOn: { id: 'btn-continue' }
+- assertVisible: { id: 'screen-server-url' }
+- tapOn: { id: 'input-server-url' }
+- inputText: 'https://srv'
+- hideKeyboard
+- assertVisible: { id: 'btn-connect' }

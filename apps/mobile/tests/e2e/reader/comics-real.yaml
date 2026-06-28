@@ -1,0 +1,100 @@
+appId: com.bookkeeprr.app
+# Real-server comics flow: page rendering, paging, and resume.
+#
+# Comic page images load through the NATIVE image pipeline (FastImage), which
+# the in-app fetch mock can never serve — under the mock a page never decodes
+# and the reader's "Waiting for server" overlay takes over (job 2808). So the
+# pixels-on-screen + paging + resume coverage lives HERE, against a LIVE
+# server, while the mocked reader-comics.yaml asserts chrome only.
+#
+# Prerequisites (the CI job provides all of these):
+#   1. apps/web running with BOOKKEEPRR_E2E_LOGIN_BYPASS=1, the seeded user,
+#      and the seeded readables (apps/web/scripts/e2e-seed-readables.ts) —
+#      "Seed Comic" is the SECOND readable: series 2 / volume 2 / file 2 on a
+#      fresh e2e DB (grid-card-2 / vol-2 below rely on that).
+#   2. The server reachable from the device at $BOOKKEEPRR_E2E_SERVER_URL.
+#   3. Metro bundling with EXPO_PUBLIC_MOBILE_E2E=1 + _REAL_SERVER=1 +
+#      _AUTOAUTH=1 (same bundle as connected-real-server.yaml).
+#
+# Run with the URL injected as a Maestro param:
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://localhost:3000 \
+#     tests/e2e/reader/comics-real.yaml
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_REAL_SERVER: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Onboard against the real server (launchApp clearState lives in the subflow —
+# double-launching crashes Android and flakes iOS). Ends on the library grid.
+- runFlow: { file: ../onboarding/connected-real-server.yaml }
+
+# Open the seeded comic series (the second seeded readable).
+- extendedWaitUntil:
+    visible: { id: 'grid-card-2' }
+    timeout: 15000
+- tapOn: { id: 'grid-card-2' }
+- assertVisible: { id: 'screen-series-overview' }
+
+# Volumes tab → tap-to-read volume 2 (volume ids are global autoincrement;
+# the ebook seed owns volume 1).
+- assertVisible: { id: 'btn-volumes' }
+- tapOn: { id: 'btn-volumes' }
+- assertVisible: { id: 'screen-series-volumes' }
+- extendedWaitUntil:
+    visible: { id: 'vol-2' }
+    timeout: 10000
+- tapOn: { id: 'vol-2' }
+
+# The manifest (/api/reader/manifest?fileId=2) resolves the .cbz → the comics
+# reader mounts. Do NOT assert reader-comic-page: a FastImage exposes no iOS
+# accessibility element even when it decodes (job 2869: the 1x1 fixture page
+# rendered — black pixel, no server-down overlay — and the id still reported
+# not-visible). The rail's page label is the behavioral signal: it's a plain
+# Text, and it only says 'Page 1 / 3' because the live manifest resolved all
+# three pages. The server-down overlay appearing instead would mean the page
+# bytes failed to load.
+- extendedWaitUntil:
+    visible: { id: 'reader-comics' }
+    timeout: 20000
+- assertVisible: { id: 'reader-tap-overlay' }
+- extendedWaitUntil:
+    visible: 'Page . / 3'
+    timeout: 20000
+
+# Normalize to page 1: the live server KEEPS progress between retry attempts,
+# so a retried flow resumes wherever attempt 1 left off. Two left-edge taps
+# step back (prev clamps at page 1), making the starting state deterministic.
+- tapOn:
+    id: 'reader-tap-overlay'
+    point: '10%,50%'
+- tapOn:
+    id: 'reader-tap-overlay'
+    point: '10%,50%'
+- extendedWaitUntil:
+    visible: 'Page 1 / 3'
+    timeout: 10000
+
+# Page forward; the label flipping to 'Page 2 / 3' proves paging worked and
+# (since the server-down overlay would otherwise have swallowed the overlay
+# taps) that the page image pipeline is healthy. The turn commits progress to
+# the live server.
+- tapOn:
+    id: 'reader-tap-overlay'
+    point: '90%,50%'
+- extendedWaitUntil:
+    visible: 'Page 2 / 3'
+    timeout: 10000
+- tapOn: { id: 'reader-back' }
+- assertVisible: { id: 'screen-series-volumes' }
+
+# Re-open: the reader RESUMES at page 2 (not page 1) — the manifest's progress
+# seed comes from the live progress row the page turn just wrote.
+- tapOn: { id: 'vol-2' }
+- extendedWaitUntil:
+    visible: { id: 'reader-comics' }
+    timeout: 20000
+- extendedWaitUntil:
+    visible: 'Page 2 / 3'
+    timeout: 20000
+- tapOn: { id: 'reader-back' }
+- assertVisible: { id: 'screen-series-volumes' }

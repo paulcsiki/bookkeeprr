@@ -1,0 +1,12 @@
+{
+	auto_https off
+	admin off
+}
+
+:80 {
+	reverse_proxy bookkeeprr:3000 {
+		header_up Remote-User alice
+		header_up Remote-Email alice@example.com
+		header_up Remote-Groups "bookkeeprr-users,bookkeeprr-admins"
+	}
+}

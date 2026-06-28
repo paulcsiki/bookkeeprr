@@ -1,0 +1,41 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Geist-Bold.ttf",
+      "sha1": "0f50d1b486d346d07a20ad818ff273a84bd949dc"
+    },
+    {
+      "path": "assets/fonts/Geist-Medium.ttf",
+      "sha1": "024fbd0f15e13bbc0f69c4869ff053f8ea854cc9"
+    },
+    {
+      "path": "assets/fonts/Geist-Regular.ttf",
+      "sha1": "0bb8efc2792f5fbe15ecabd4efe7335da6593868"
+    },
+    {
+      "path": "assets/fonts/Geist-SemiBold.ttf",
+      "sha1": "95d1503f92fcde0df26fc88fbd58fef9f25d70f9"
+    },
+    {
+      "path": "assets/fonts/GeistMono-Medium.ttf",
+      "sha1": "96dd97ad178813b4690cd9787851f83bf1e1e81e"
+    },
+    {
+      "path": "assets/fonts/GeistMono-Regular.ttf",
+      "sha1": "37742020d94143c2de94ea81255aea907663b2f0"
+    },
+    {
+      "path": "assets/fonts/SpaceGrotesk-Bold.ttf",
+      "sha1": "14f3d7d974d0232f0fba31566783b2c262b4d2a2"
+    },
+    {
+      "path": "assets/fonts/SpaceGrotesk-Medium.ttf",
+      "sha1": "7d2fe2b9e0c9e76ab5bebf7cd766acd1d5c4dcbb"
+    },
+    {
+      "path": "assets/fonts/SpaceGrotesk-SemiBold.ttf",
+      "sha1": "e99da7dd55ac9ed7675a533c5a98cd7797613a67"
+    }
+  ]
+}

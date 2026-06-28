@@ -1,0 +1,32 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+# Wait for the Welcome screen to fully mount before the first tap.
+# Without this, iOS Maestro occasionally fires `tap btn-get-started`
+# while the JS bundle is still rehydrating (app launch + Firebase
+# init + AuthContext.tokenStore.load) and the tap lands on an empty
+# view tree — Maestro reports the tap as completed (the Pressable's
+# touch-down feedback briefly changes the view hierarchy) but onPress
+# never wires up, so the next screen never appears. Job 895 hit this:
+# btn-get-started "COMPLETED" then assert screen-features FAILED.
+- assertVisible: { id: 'screen-welcome' }
+- tapOn: { id: 'btn-get-started' }
+# Wait for the Features screen to commit before tapping btn-continue —
+# without this, Maestro on iOS occasionally registers the get-started tap
+# as completed before React Navigation has finished pushing the Features
+# screen, then can't find btn-continue (jobs 825 and 863 failed exactly
+# here, screenshot still showed the Welcome screen).
+- assertVisible: { id: 'screen-features' }
+- tapOn: { id: 'btn-continue' }
+- assertVisible: { id: 'screen-server-url' }
+- tapOn: { id: 'input-server-url' }
+- inputText: 'https://srv'
+# Submit via the keyboard's return key (ServerUrl input onSubmitEditing) —
+# avoids the flaky iOS hideKeyboard and the keyboard covering btn-connect.
+- pressKey: Enter
+# AuthHandoff auto-launches the browser on mount (no manual tap needed).
+- assertVisible: { id: 'screen-connected' }
+- assertVisible: { id: 'btn-go-library' }

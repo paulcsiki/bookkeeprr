@@ -1,0 +1,22 @@
+# Member profile: Settings → Users → tap a member row → profile dossier.
+# (The admin Users list is one of the two profile entry points; the other is
+# the dashboard's household leaderboard, which the mocked Home doesn't render.)
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-users' }
+    centerElement: true
+- tapOn: { id: 'row-users' }
+- assertVisible: { id: 'screen-users' }
+- tapOn: { id: 'user-row-2' }
+- assertVisible: { id: 'screen-user-profile' }
+- assertVisible: { id: 'profile-header' }
+- assertVisible: { text: 'Joined Jan 2026' }
+- assertVisible: { text: 'Loves manga' }

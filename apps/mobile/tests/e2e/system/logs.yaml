@@ -1,0 +1,21 @@
+# M2 System group — Logs flow.
+# AUTHORED ONLY (device-run optional): no emulator is wired into this checkout,
+# so this flow is committed for the Maestro suite but not yet exercised on a
+# device. Modeled on tests/e2e/system/audit-log.yaml. Logs is admin-gated, so it
+# relies on the AUTOAUTH admin session from the connected onboarding flow.
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see library-list.yaml / calendar.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-logs' }
+    centerElement: true
+- tapOn: { id: 'row-logs' }
+- assertVisible: { id: 'screen-logs' }
+- assertVisible: { id: 'log-file-bookkeeprr.log' }

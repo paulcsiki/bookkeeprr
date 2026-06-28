@@ -1,0 +1,21 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_ENABLED: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_AUTOGRANT: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-push-notifications' }
+    centerElement: true
+- tapOn: { id: 'row-push-notifications' }
+- assertVisible: { id: 'screen-push-notifications' }
+- assertVisible: { id: 'push-state-off' }
+- tapOn: { id: 'btn-push-enable' }
+- extendedWaitUntil:
+    visible: { id: 'push-state-on' }
+    timeout: 5000

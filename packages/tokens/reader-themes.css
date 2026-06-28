@@ -1,0 +1,71 @@
+/* =========================================================
+   BOOKKEEPRR — READER PAGE THEMES
+   Additive token set for the in-reader page surface, scoped by
+   `data-reader-theme`. This is NOT a light-mode toggle for the app shell —
+   the app stays dark-only. These tokens only paint the reading surface and
+   its theme-adaptive chrome (the chrome derives from the same palette as the
+   page so a paper page never floats inside a black bar, and vice-versa).
+
+   Values are copied verbatim from `READER_THEMES` in
+   docs/design/reader-prototype/reader-core.jsx.
+
+   `--reader-accent` choices:
+     - paper → var(--color-primary): on a light paper page the app's themable
+       accent reads well, and keeps the reader on-brand with the active theme.
+     - sepia → oklch(0.55 0.13 40): the prototype's warm accent; the cool brand
+       accent clashes with the sepia page, so we keep the warm tone.
+     - dark / oled → var(--color-primary): dark pages match the app shell, so
+       the themable brand accent is used directly.
+   ========================================================= */
+
+[data-reader-theme='paper'] {
+  --reader-page: #faf7f0;
+  --reader-ink: hsl(38 16% 16%);
+  --reader-ink-soft: hsl(38 10% 38%);
+  --reader-faint: hsl(38 8% 62%);
+  --reader-chrome: #f1ede3;
+  --reader-chrome-2: #efe9dd;
+  --reader-line: hsl(38 14% 84%);
+  --reader-line-2: hsl(38 12% 78%);
+  --reader-sel: hsl(45 90% 62% / 0.34);
+  --reader-accent: var(--color-primary);
+}
+
+[data-reader-theme='sepia'] {
+  --reader-page: #f3e7cf;
+  --reader-ink: hsl(28 28% 20%);
+  --reader-ink-soft: hsl(28 18% 40%);
+  --reader-faint: hsl(28 16% 60%);
+  --reader-chrome: #ecdcbf;
+  --reader-chrome-2: #e7d5b4;
+  --reader-line: hsl(33 32% 76%);
+  --reader-line-2: hsl(33 28% 70%);
+  --reader-sel: hsl(35 80% 55% / 0.34);
+  --reader-accent: oklch(0.55 0.13 40);
+}
+
+[data-reader-theme='dark'] {
+  --reader-page: hsl(240 8% 12%);
+  --reader-ink: hsl(40 12% 86%);
+  --reader-ink-soft: hsl(40 6% 60%);
+  --reader-faint: hsl(40 5% 42%);
+  --reader-chrome: hsl(240 9% 9%);
+  --reader-chrome-2: hsl(240 9% 14%);
+  --reader-line: hsl(240 6% 20%);
+  --reader-line-2: hsl(240 6% 26%);
+  --reader-sel: hsl(263 70% 60% / 0.32);
+  --reader-accent: var(--color-primary);
+}
+
+[data-reader-theme='oled'] {
+  --reader-page: #000000;
+  --reader-ink: hsl(0 0% 80%);
+  --reader-ink-soft: hsl(0 0% 52%);
+  --reader-faint: hsl(0 0% 34%);
+  --reader-chrome: #060608;
+  --reader-chrome-2: hsl(240 8% 8%);
+  --reader-line: hsl(240 6% 15%);
+  --reader-line-2: hsl(240 6% 22%);
+  --reader-sel: hsl(263 70% 60% / 0.34);
+  --reader-accent: var(--color-primary);
+}

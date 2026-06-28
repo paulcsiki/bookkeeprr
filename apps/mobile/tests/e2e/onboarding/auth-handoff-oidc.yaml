@@ -1,0 +1,14 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTH_MODE: 'oidc'
+---
+- launchApp: { clearState: true }
+- tapOn: { id: 'btn-get-started' }
+- tapOn: { id: 'btn-continue' }
+- tapOn: { id: 'input-server-url' }
+- inputText: 'https://srv'
+# Submit via the keyboard's return key (ServerUrl input onSubmitEditing) —
+# avoids the flaky iOS hideKeyboard and the keyboard covering btn-connect.
+- pressKey: Enter
+- assertVisible: { id: 'screen-auth-handoff-oidc' }

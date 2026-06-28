@@ -1,0 +1,13 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+  EXPO_PUBLIC_MOBILE_E2E_UPDATE_AVAILABLE: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'update-banner' }
+- assertVisible: { text: 'Update available' }
+- tapOn: { id: 'btn-update-changelog' }
+- assertVisible: { id: 'screen-version-history' }

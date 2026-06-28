@@ -1,0 +1,19 @@
+{
+  "_comment": "Operator: replace this file with the real google-services.json downloaded from Firebase Console (Project Settings -> Your apps -> Android). Rename it to google-services.json (drop the .example suffix). The file is .gitignored so a real one will NOT be committed. The bare structure below is for reference only; the Firebase CLI generates a valid file.",
+  "project_info": {
+    "project_number": "<FCM_SENDER_ID>",
+    "project_id": "bookkeeprr",
+    "storage_bucket": "bookkeeprr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "<APP_ID>",
+        "android_client_info": {
+          "package_name": "com.bookkeeprr.app"
+        }
+      },
+      "api_key": [{ "current_key": "<API_KEY>" }]
+    }
+  ]
+}

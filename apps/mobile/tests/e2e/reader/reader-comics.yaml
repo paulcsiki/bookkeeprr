@@ -1,0 +1,36 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Open the comics reader from the Continue-Reading rail, page through, and
+# confirm the resume position survives leaving + re-opening the reader.
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see discover-search.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+
+# The rail lives on the Home dashboard. iOS Maestro on the tab bar's Pressable
+# is flaky — tapping twice gives navigation a second chance (the second tap is
+# a no-op if Home is already focused). Same pattern as discover-search.yaml.
+- tapOn:
+    id: 'tab-home'
+    repeat: 2
+- extendedWaitUntil:
+    visible: { id: 'screen-home' }
+    timeout: 10000
+
+# The rail is backed by the e2e fetch mock's /api/reader/progress fixture.
+- assertVisible: { id: 'continue-reading-rail' }
+- tapOn: { id: 'continue-card-1' }
+
+# The comics player mounts. Assert the CHROME immediately and END the flow
+# here: under the fetch mock the page image loads through the NATIVE image
+# pipeline and fails, and ~1s later the reader's deliberate "Waiting for
+# server" overlay (reader-server-down) covers the whole surface — paging,
+# back-out, and resume are impossible under the mock (job 2808 screenshot).
+# Paging + resume coverage lives in the real-server job's comics-real.yaml,
+# where the page bytes actually load.
+- assertVisible: { id: 'reader-comics' }
+- assertVisible: { id: 'reader-tap-overlay' }

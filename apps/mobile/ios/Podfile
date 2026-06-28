@@ -1,0 +1,58 @@
+# Bare React Native Podfile (post-M6 Expo eject).
+require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+
+require 'json'
+podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
+
+def ccache_enabled?(podfile_properties)
+  # Environment variable takes precedence
+  return ENV['USE_CCACHE'] == '1' if ENV['USE_CCACHE']
+
+  # Fall back to Podfile properties
+  podfile_properties['apple.ccacheEnabled'] == 'true'
+end
+
+ENV['RCT_USE_RN_DEP'] ||= podfile_properties['ios.buildReactNativeFromSource'] == 'true' ? '0' : '1'
+ENV['RCT_USE_PREBUILT_RNCORE'] ||= podfile_properties['ios.buildReactNativeFromSource'] == 'true' ? '0' : '1'
+platform :ios, podfile_properties['ios.deploymentTarget'] || '16.4'
+
+prepare_react_native_project!
+
+target 'Bookkeeprr' do
+  config = use_native_modules!
+
+  # Silence deprecation / strict-prototype warnings emitted by third-party
+  # pods (SDWebImage, SDWebImageWebPCoder, SwiftAudioEx, …). Our own code
+  # lives in the Bookkeeprr target outside the Pods project; this only
+  # suppresses warnings from vendored dependencies we can't fix without
+  # forking. Build errors are unaffected.
+  inhibit_all_warnings!
+
+  # Firebase's Swift pods (FirebaseCoreInternal etc.) require GoogleUtilities
+  # to expose module maps so they can be imported from Swift when linked as
+  # static libraries. Without this, pod install fails with:
+  #   "The Swift pod `FirebaseCoreInternal` depends upon `GoogleUtilities`,
+  #    which does not define modules."
+  # Global use_modular_headers! is the canonical RN+Firebase fix.
+  use_modular_headers!
+
+  use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
+  use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => podfile_properties['jsEngine'] == nil || podfile_properties['jsEngine'] == 'hermes',
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
+  )
+
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+      :ccache_enabled => ccache_enabled?(podfile_properties),
+    )
+  end
+end

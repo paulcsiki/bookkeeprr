@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "273200",
+      "name": "Love at Stake series",
+      "main_cat": "13",
+      "size": "6324306932",
+      "seeders": "12",
+      "leechers": "0",
+      "added": "2024-06-01 12:30:45",
+      "free": "1",
+      "vip": "0",
+      "fl_vip": "0",
+      "lang_code": "eng"
+    },
+    {
+      "id": "999001",
+      "title": "Some Ebook Title",
+      "main_cat": "14",
+      "size": "1048576",
+      "seeders": "3",
+      "leechers": "1",
+      "added": "2025-01-02 03:04:05",
+      "free": "0",
+      "vip": "1",
+      "fl_vip": "0",
+      "lang_code": "eng"
+    }
+  ],
+  "total": 2,
+  "total_found": 2
+}

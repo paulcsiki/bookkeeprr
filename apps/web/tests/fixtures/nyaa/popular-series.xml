@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:nyaa="https://nyaa.si/xmlns/nyaa" version="2.0">
+  <channel>
+    <title>Nyaa - "Chainsaw Man" - RSS</title>
+    <description>RSS Feed for Query "Chainsaw Man"</description>
+    <link>https://nyaa.si/</link>
+    <item>
+      <title>[Group] Chainsaw Man - v01 (2024) (Digital) (Group)</title>
+      <link>https://nyaa.si/download/1234567.torrent</link>
+      <guid isPermaLink="true">https://nyaa.si/view/1234567</guid>
+      <pubDate>Mon, 22 May 2026 12:00:00 +0000</pubDate>
+      <nyaa:seeders>120</nyaa:seeders>
+      <nyaa:leechers>3</nyaa:leechers>
+      <nyaa:downloads>456</nyaa:downloads>
+      <nyaa:infoHash>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</nyaa:infoHash>
+      <nyaa:categoryId>3_1</nyaa:categoryId>
+      <nyaa:category>Literature - English-translated</nyaa:category>
+      <nyaa:size>123.4 MiB</nyaa:size>
+      <nyaa:comments>0</nyaa:comments>
+      <nyaa:trusted>No</nyaa:trusted>
+      <nyaa:remake>No</nyaa:remake>
+    </item>
+    <item>
+      <title>[OtherGroup] Chainsaw Man v02 [Digital]</title>
+      <link>https://nyaa.si/download/1234568.torrent</link>
+      <guid isPermaLink="true">https://nyaa.si/view/1234568</guid>
+      <pubDate>Tue, 23 May 2026 14:00:00 +0000</pubDate>
+      <nyaa:seeders>45</nyaa:seeders>
+      <nyaa:leechers>1</nyaa:leechers>
+      <nyaa:downloads>89</nyaa:downloads>
+      <nyaa:infoHash>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</nyaa:infoHash>
+      <nyaa:categoryId>3_1</nyaa:categoryId>
+      <nyaa:category>Literature - English-translated</nyaa:category>
+      <nyaa:size>87.2 MiB</nyaa:size>
+      <nyaa:comments>0</nyaa:comments>
+      <nyaa:trusted>Yes</nyaa:trusted>
+      <nyaa:remake>No</nyaa:remake>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+[
+  {
+    "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "name": "Chainsaw Man v01",
+    "state": "downloading",
+    "progress": 0.42,
+    "category": "bookkeeprr-manga",
+    "tags": "series-1",
+    "save_path": "/media/downloads/incomplete/",
+    "size": 150000000,
+    "completed": 63000000
+  },
+  {
+    "hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "name": "Berserk v40",
+    "state": "stalledUP",
+    "progress": 1.0,
+    "category": "bookkeeprr-manga",
+    "tags": "series-2",
+    "save_path": "/media/downloads/completed/",
+    "size": 200000000,
+    "completed": 200000000
+  }
+]

@@ -1,0 +1,89 @@
+# System group — book-series collapse + navigation flow (real server).
+# AUTHORED ONLY: a real-device run on the CI Mac runner is required before
+# merge — the book-series member-map queries (GET /api/book-series and
+# GET /api/book-series/{id}) hit the network, and the connectivity/safe-area
+# assumptions baked into the in-app fetch mock do not apply here.
+#
+# Modeled on tests/e2e/library/groups-real.yaml. Prerequisites (the iOS
+# real-server CI job provides all of these):
+#   1. apps/web running with BOOKKEEPRR_E2E_LOGIN_BYPASS=1, the seeded user
+#      (apps/web/scripts/e2e-seed-user.ts), and the seeded readables + group
+#      + book-series (apps/web/scripts/e2e-seed-readables.ts) — on a fresh
+#      e2e DB: 'Seed Book Series' = book_series 1, members = series 1
+#      ('Seed Ebook', ebook, ungrouped) + series 3 ('Seed Grouped', ebook,
+#      in group 1), plus one canonical entry with no member ('Seed Missing
+#      Book') that renders as the unowned/missing book (drives Step 6).
+#   2. The server reachable from the device at $BOOKKEEPRR_E2E_SERVER_URL.
+#   3. Metro bundling with EXPO_PUBLIC_MOBILE_E2E=1 + _REAL_SERVER=1 +
+#      _AUTOAUTH=1 (same bundle as connected-real-server.yaml).
+#
+# Run with the URL injected as a Maestro param:
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://localhost:3000 \
+#     tests/e2e/system/book-series.yaml
+#
+# Assertions use testIDs only — iOS Pressable text-collapse merges child
+# text into a single XCUIElement whose label concatenates all children,
+# so `text:` assertions on title strings are unreliable on iOS.
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_REAL_SERVER: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Onboard against the real server (launchApp clearState lives in the subflow —
+# double-launching crashes Android and flakes iOS). Ends on the library grid.
+- runFlow: { file: ../onboarding/connected-real-server.yaml }
+
+# ── Step 1: library root shows a book-series row for 'Seed Book Series'. ──
+# Series 1 ('Seed Ebook') is ungrouped and is a member of book_series 1, so
+# the library's browse-mode collapse emits book-series-row-1 above the
+# standalone series grid. The live API calls (GET /api/book-series and
+# GET /api/book-series/1) need a beat to resolve.
+- extendedWaitUntil:
+    visible: { id: 'book-series-row-1' }
+    timeout: 15000
+- assertVisible: { id: 'book-series-row-1' }
+
+# ── Step 2: tap the row → BookSeriesDetail screen. ──
+- tapOn: { id: 'book-series-row-1' }
+- extendedWaitUntil:
+    visible: { id: 'book-series-detail-screen' }
+    timeout: 15000
+- assertVisible: { id: 'book-series-detail-screen' }
+
+# ── Step 3: owned-book-1 is visible (series 1 = 'Seed Ebook' is an owned
+# member). Tap it to navigate to series 1's SeriesOverview. ──
+- extendedWaitUntil:
+    visible: { id: 'owned-book-1' }
+    timeout: 10000
+- tapOn: { id: 'owned-book-1' }
+- extendedWaitUntil:
+    visible: { id: 'screen-series-overview' }
+    timeout: 15000
+- assertVisible: { id: 'screen-series-overview' }
+
+# ── Step 4: the SeriesOverview for series 1 shows the 'Part of series' row
+# because series 1 is a member of book_series 1. The member-map queries
+# (GET /api/book-series + GET /api/book-series/1) run on mount — give them
+# time to settle before asserting the row.
+- extendedWaitUntil:
+    visible: { id: 'part-of-series-row' }
+    timeout: 15000
+- assertVisible: { id: 'part-of-series-row' }
+
+# ── Step 5: tap part-of-series-row → back to BookSeriesDetail. ──
+- tapOn: { id: 'part-of-series-row' }
+- extendedWaitUntil:
+    visible: { id: 'book-series-detail-screen' }
+    timeout: 15000
+- assertVisible: { id: 'book-series-detail-screen' }
+
+# ── Step 6: the detail lists books NOT owned locally. 'Seed Missing Book'
+# is a canonical entry with no member, so it renders with an "Add" button
+# (testID `missing-book-add`). It sits below the two owned books, so scroll
+# the detail list down until the Add control surfaces. This is the proof
+# that a collection surfaces books that aren't present locally.
+- scrollUntilVisible:
+    element: { id: 'missing-book-add' }
+    centerElement: true
+- assertVisible: { id: 'missing-book-add' }

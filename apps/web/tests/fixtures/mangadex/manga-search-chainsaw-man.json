@@ -1,0 +1,18 @@
+{
+  "result": "ok",
+  "data": [
+    {
+      "id": "a96676e5-8ae2-425e-b549-7f15dd34a6d8",
+      "type": "manga",
+      "attributes": {
+        "title": { "en": "Chainsaw Man", "ja": "チェンソーマン" },
+        "status": "ongoing",
+        "year": 2018,
+        "lastVolume": "15",
+        "lastChapter": "175"
+      },
+      "relationships": []
+    }
+  ],
+  "total": 1
+}

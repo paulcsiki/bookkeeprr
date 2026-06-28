@@ -1,0 +1,19 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_ENABLED: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_AUTOGRANT: '1'
+  EXPO_PUBLIC_MOBILE_E2E_PUSH_FIRE: '1'
+---
+- runFlow: { file: ./permission-grant-and-register.yaml }
+# Re-launch so the bootstrap timer fires after we land on the Library.
+- launchApp: {}
+- assertVisible: { id: 'screen-library-grid' }
+- extendedWaitUntil:
+    visible: { id: 'in-app-banner' }
+    timeout: 8000
+- tapOn: { id: 'in-app-banner' }
+- extendedWaitUntil:
+    visible: { id: 'screen-series-overview' }
+    timeout: 5000

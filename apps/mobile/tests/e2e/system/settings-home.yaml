@@ -1,0 +1,33 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see library-list.yaml / calendar.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- assertVisible: { id: 'screen-settings' }
+- assertVisible: { text: 'GENERAL' }
+- scrollUntilVisible:
+    element: { text: 'SOURCES' }
+    centerElement: true
+- scrollUntilVisible:
+    element: { text: 'LIBRARY' }
+    centerElement: true
+# row-integrations (Notifications) is the LAST row of the LIBRARY group —
+# scroll to it BEFORE the sections below it; scrollUntilVisible only scrolls
+# down, so once APP is on screen this row would sit above the viewport.
+- scrollUntilVisible:
+    element: { id: 'row-integrations' }
+    centerElement: true
+- scrollUntilVisible:
+    element: { text: 'ACCESS' }
+    centerElement: true
+- scrollUntilVisible:
+    element: { text: 'SYSTEM' }
+    centerElement: true
+- scrollUntilVisible:
+    element: { text: 'APP' }
+    centerElement: true

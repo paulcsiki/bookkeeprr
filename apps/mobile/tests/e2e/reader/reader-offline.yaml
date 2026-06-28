@@ -1,0 +1,29 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# The offline surface lives on each Continue-Reading card: a download affordance
+# that records download intent in the reader-downloads store. (Actual byte
+# download is a documented v1 stub — no filesystem dependency is installed — so
+# this flow asserts the tracking UI / affordance is present and reachable, not
+# on-device bytes.)
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see discover-search.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+
+# The rail lives on the Home dashboard (see reader-comics.yaml).
+- tapOn:
+    id: 'tab-home'
+    repeat: 2
+- extendedWaitUntil:
+    visible: { id: 'screen-home' }
+    timeout: 10000
+
+- assertVisible: { id: 'continue-reading-rail' }
+
+# Each not-yet-downloaded card exposes a "download for offline" affordance.
+- assertVisible: { id: 'continue-download-1' }
+- tapOn: { id: 'continue-download-1' }

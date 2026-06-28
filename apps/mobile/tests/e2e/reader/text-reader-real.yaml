@@ -1,0 +1,75 @@
+appId: com.bookkeeprr.app
+# Real-server text-reader (EPUB) flow.
+#
+# The EPUB chapter document is loaded by the NATIVE WebView network stack
+# (WKWebView / Android System WebView), which the in-app fetch mock can never
+# intercept — so unlike the other reader flows this one MUST run against a
+# LIVE bookkeeprr server (the e2e:mobile:ios:real-server CI job). See
+# docs/maestro.md, "Which flows run on CI".
+#
+# Prerequisites (the CI job provides all of these):
+#   1. apps/web running with BOOKKEEPRR_E2E_LOGIN_BYPASS=1, a seeded user
+#      (apps/web/scripts/e2e-seed-user.ts), and a seeded ebook readable
+#      (apps/web/scripts/e2e-seed-readables.ts) — series "Seed Ebook" with
+#      volume 1 backed by a real .epub under $BOOKKEEPRR_MEDIA_ROOT.
+#   2. The server reachable from the device at $BOOKKEEPRR_E2E_SERVER_URL.
+#   3. Metro bundling with EXPO_PUBLIC_MOBILE_E2E=1 + _REAL_SERVER=1 +
+#      _AUTOAUTH=1 (same bundle as connected-real-server.yaml).
+#
+# The grid-card-1 / vol-1 testIDs assume a FRESH e2e DB: the readable seed is
+# the only series, so it gets series id 1 / volume id 1.
+#
+# Run with the URL injected as a Maestro param:
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://localhost:3000 \
+#     tests/e2e/reader/text-reader-real.yaml
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_REAL_SERVER: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Onboard against the real server (launchApp clearState lives in the subflow —
+# double-launching crashes Android and flakes iOS). Ends on the library grid.
+- runFlow: { file: ../onboarding/connected-real-server.yaml }
+
+# Open the seeded ebook series. The grid is fetched from the live /api/series,
+# so give the first card a moment to render.
+- extendedWaitUntil:
+    visible: { id: 'grid-card-1' }
+    timeout: 15000
+- tapOn: { id: 'grid-card-1' }
+- assertVisible: { id: 'screen-series-overview' }
+
+# Volumes tab → tap-to-read volume 1 (owned volumes carry libraryFileId, so
+# the row is a Pressable that opens the Reader route by fileId).
+- assertVisible: { id: 'btn-volumes' }
+- tapOn: { id: 'btn-volumes' }
+- assertVisible: { id: 'screen-series-volumes' }
+- extendedWaitUntil:
+    visible: { id: 'vol-1' }
+    timeout: 10000
+- tapOn: { id: 'vol-1' }
+
+# The manifest (/api/reader/manifest?fileId=1) resolves the .epub → the text
+# reader mounts: reader surface + WebView host + chrome. First render fetches
+# the chapter HTML over localhost — fast, but allow for cold-start slack.
+- extendedWaitUntil:
+    visible: { id: 'reader-text' }
+    timeout: 20000
+- assertVisible: { id: 'reader-epub' }
+- assertVisible: { id: 'reader-back' }
+- assertVisible: { id: 'reader-rail' }
+- assertNotVisible: { id: 'reader-error' }
+
+# The real assertion this job exists for: the chapter document rendered
+# through the native WebView network stack. "Chapter One" is the <h1> of the
+# fixture epub's first spine item (tests/fixtures/reader/make-fixtures.mjs);
+# WKWebView exposes rendered text to the accessibility tree Maestro reads.
+# (The progress rail says "Chapter 1 / 2" — distinct string, no collision.)
+- extendedWaitUntil:
+    visible: 'Chapter One'
+    timeout: 20000
+
+# Leave the reader — back lands on the volumes list, proving the chrome's
+# back button is wired and navigation state survived the reader.
+- tapOn: { id: 'reader-back' }
+- assertVisible: { id: 'screen-series-volumes' }

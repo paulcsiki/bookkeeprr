@@ -1,0 +1,18 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see library-list.yaml / calendar.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-audit' }
+    centerElement: true
+- tapOn: { id: 'row-audit' }
+- assertVisible: { id: 'screen-audit' }
+- assertVisible: { id: 'audit-row-1' }
+- tapOn: { id: 'audit-filter-logins' }
+- assertVisible: { id: 'audit-row-3' }

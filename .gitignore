@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Environment + secrets
+.env
+.env.local
+.env.*.local
+
+# Runtime / local state
+/config/
+# Local dev config/media dirs (BOOKKEEPRR_CONFIG_DIR / _MEDIA_ROOT defaults)
+.config/
+.media/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Brainstorm session output (visual companion)
+.superpowers/
+
+# Test artifacts
+coverage/
+
+# Playwright
+/playwright-report/
+/test-results/
+/apps/web/playwright-report/
+/apps/web/test-results/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# E2E compose data
+/.docker-data/
+.claude/worktrees/
+
+# Agent tooling + mobile-internal files: kept on disk, never committed to any repo
+/apps/mobile/CLAUDE.md
+AGENTS.md
+/apps/mobile/README.md
+/apps/web/README.md
+/apps/website/README.md

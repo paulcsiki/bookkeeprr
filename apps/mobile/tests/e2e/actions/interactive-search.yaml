@@ -1,0 +1,13 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { id: 'grid-card-1' }
+- tapOn: { id: 'btn-interactive-search' }
+- assertVisible: { id: 'screen-interactive-search' }
+- assertVisible: { id: 'release-9' }
+- tapOn: { id: 'btn-grab-9' }

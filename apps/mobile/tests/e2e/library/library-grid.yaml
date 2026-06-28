@@ -1,0 +1,22 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml owns the onboarding flow (with proper waits between
+# screens) and lands on btn-go-library. Reusing it keeps timing
+# consistent with the other library/* and actions/* flows. Connected
+# has a 2.2s useEffect that auto-progresses to Library, which races a
+# direct tap on btn-go-library — extendedWaitUntil absorbs both the
+# auto-progress timing and the MSW response.
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+# Vinland Saga is fixtureSeries[0] → grid-card-1 via GridCard's testID. We
+# match on the card's testID rather than the title text because the outer
+# Pressable (RN's default `accessible={true}`) absorbs its children into a
+# single iOS XCUIElement whose label concatenates all child texts; a
+# `text: 'Vinland Saga'` exact-match assertion finds nothing on iOS.
+- extendedWaitUntil:
+    visible: { id: 'grid-card-1' }
+    timeout: 10000

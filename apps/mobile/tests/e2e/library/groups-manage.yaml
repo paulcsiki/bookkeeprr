@@ -1,0 +1,65 @@
+appId: com.bookkeeprr.app
+# Library groups — manage: create via the ghost row, delete an EMPTY group
+# (plain confirm — no typed-name gate), then delete a NON-EMPTY group through
+# the typed-name gate. The stateful fetch mock hands out deterministic ids:
+# the first created group is id 100 (src/lib/e2e-fetch-mock.ts), and the
+# seeded 'Shonen' (group-row-1) holds one series, so its delete requires
+# retyping the exact name before the destructive button arms.
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000
+# --- Create 'Backlog' via the ghost row (sits right under the group rows) ---
+- scrollUntilVisible:
+    element: { id: 'new-group-row' }
+    centerElement: true
+- tapOn: { id: 'new-group-row' }
+# Sheet containers are not assertable on iOS (AX culling) — use the input.
+- assertVisible: { id: 'create-group-input' }
+- tapOn: { id: 'create-group-input' }
+- inputText: 'Backlog'
+# iOS: NO hideKeyboard — its mid-screen dismissal tap can land on the
+# keyboard-avoided confirm button and submit early (see actions/manual-grab).
+# The KeyboardAvoidingView keeps the button visible, so tap it directly.
+# Android: the sheet sits behind the keyboard until dismissed.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- tapOn: { id: 'create-group-confirm' }
+- assertNotVisible: { id: 'create-group-confirm' }
+# The new group appears (deterministic mock id 100; 'Backlog' sorts first).
+- extendedWaitUntil:
+    visible: { id: 'group-row-100' }
+    timeout: 10000
+# --- Delete the EMPTY group: plain confirm, no typed-name input ---
+- longPressOn: { id: 'group-row-100' }
+- assertVisible: { id: 'group-action-delete' }
+- tapOn: { id: 'group-action-delete' }
+- assertVisible: { id: 'delete-group-confirm' }
+- assertNotVisible: { id: 'delete-group-input' }
+- tapOn: { id: 'delete-group-confirm' }
+- assertNotVisible: { id: 'delete-group-confirm' }
+- assertNotVisible: { id: 'group-row-100' }
+# --- Delete the NON-EMPTY 'Shonen': the typed-name gate must arm first ---
+- longPressOn: { id: 'group-row-1' }
+- assertVisible: { id: 'group-action-delete' }
+- tapOn: { id: 'group-action-delete' }
+- assertVisible: { id: 'delete-group-confirm' }
+- tapOn: { id: 'delete-group-input' }
+- inputText: 'Shonen'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- tapOn: { id: 'delete-group-confirm' }
+- assertNotVisible: { id: 'delete-group-confirm' }
+- assertNotVisible: { id: 'group-row-1' }

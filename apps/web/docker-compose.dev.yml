@@ -1,0 +1,40 @@
+services:
+  bookkeeprr:
+    build:
+      context: ../../
+      dockerfile: apps/web/Dockerfile
+    image: bookkeeprr:dev
+    container_name: bookkeeprr-dev
+    ports:
+      - '3000:3000'
+    environment:
+      BOOKKEEPRR_DB_PATH: /config/bookkeeprr.db
+      BOOKKEEPRR_LOG_LEVEL: debug
+    volumes:
+      - ./.docker-data/config:/config
+      - ./.docker-data/media:/media
+    restart: unless-stopped
+
+  # Local qBittorrent that SHARES the /media volume with bookkeeprr, so torrents
+  # qBit saves to /media/downloads/incomplete (the grabber's SAVE_PATH) are
+  # visible to bookkeeprr's importer at the same path.
+  #
+  # In bookkeeprr → Settings → qBittorrent, use:
+  #   host: qbittorrent   port: 8080   useHttps: off
+  #   username/password: from the qbittorrent-dev container logs on first boot
+  #   (linuxserver prints a temporary WebUI password — set a permanent one in the
+  #   qBit WebUI), or set QBT_* below.
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent-dev
+    environment:
+      PUID: '1000'
+      PGID: '1000'
+      TZ: Etc/UTC
+      WEBUI_PORT: '8080'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./.docker-data/qbt-config:/config
+      - ./.docker-data/media:/media # shared with bookkeeprr (downloads land here)
+    restart: unless-stopped

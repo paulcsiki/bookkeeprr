@@ -1,0 +1,310 @@
+[
+  {
+    "title": "[Group] Chainsaw Man - v01 (2024) (Digital)",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 1,
+      "targetHigh": 1,
+      "group": "Group",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Sense-Scans] Berserk v40 [Digital]",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 40,
+      "targetHigh": 40,
+      "group": "Sense-Scans",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Group] One Piece v01-15 [Batch]",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": 1,
+      "targetHigh": 15,
+      "group": "Group",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "Naruto Vol. 1-72 Complete (Group)",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": 1,
+      "targetHigh": 72,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "[Group] Bleach - c042 (2024).cbz",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 42,
+      "targetHigh": 42,
+      "group": "Group",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Group] My Hero Academia c001-010",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 1,
+      "targetHigh": 10,
+      "group": "Group",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "[MS] Chapter 42 - Vinland Saga",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 42,
+      "targetHigh": 42,
+      "group": "MS",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Berserk Complete Collection",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "[Group] Death Note Complete Series Batch",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": "Group",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "ベルセルク 第40巻",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 40,
+      "targetHigh": 40,
+      "group": null,
+      "language": "jp",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Series Raw v01 (Japanese)",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 1,
+      "targetHigh": 1,
+      "group": null,
+      "language": "jp",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Chainsaw Man - The Movie",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Group] Chainsaw Man v01-v05 [Digital]",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": 1,
+      "targetHigh": 5,
+      "group": "Group",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "[Group] Series Title - chapter 5.5 (2024)",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 5.5,
+      "targetHigh": 5.5,
+      "group": "Group",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Group] Series Title - Ch. 100-150",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 100,
+      "targetHigh": 150,
+      "group": "Group",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "Series Title Volume 3 (Digital) (v2)",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 3,
+      "targetHigh": 3,
+      "group": null,
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Foo] [Bar] Series Title v01",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 1,
+      "targetHigh": 1,
+      "group": "Foo",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Some Series   v01    [Group]",
+    "expected": {
+      "targetKind": "volume",
+      "targetLow": 1,
+      "targetHigh": 1,
+      "group": null,
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[Group] Watchmen #5 (1986) (Digital).cbr",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 5,
+      "targetHigh": 5,
+      "group": "Group",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Watchmen #1-12 Complete (1986).cbz",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 1,
+      "targetHigh": 12,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "[Group] Saga #50 (2018) (Digital).cbr",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 50,
+      "targetHigh": 50,
+      "group": "Group",
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "[GH] Watchmen #005 - 010 (1986).cbz",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": 5,
+      "targetHigh": 10,
+      "group": "GH",
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "Watchmen Annual #1 (1988).cbr",
+    "expected": {
+      "targetKind": "chapter",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": false
+    }
+  },
+  {
+    "title": "Bunny Drop [Usagi Drop] (Complete) (Scanlated)",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "Fifty Shades of Grey Trilogy by E. L. James",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "His Dark Materials Omnibus",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "The Lord of the Rings Box Set",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  },
+  {
+    "title": "The Stormlight Archive Anthology",
+    "expected": {
+      "targetKind": "batch",
+      "targetLow": null,
+      "targetHigh": null,
+      "group": null,
+      "language": "en",
+      "isBatch": true
+    }
+  }
+]

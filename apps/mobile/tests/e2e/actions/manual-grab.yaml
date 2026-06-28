@@ -1,0 +1,39 @@
+appId: com.bookkeeprr.app
+# Manual magnet grab: paste your own magnet link on the Interactive search
+# screen. Runs against the in-app fetch mock (POST /api/series/:id/manual-grab
+# → 201 in src/lib/e2e-fetch-mock.ts).
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { id: 'grid-card-1' }
+- tapOn: { id: 'btn-interactive-search' }
+- assertVisible: { id: 'screen-interactive-search' }
+# The affordance sits under the release list — scroll it into view.
+- scrollUntilVisible:
+    element: { id: 'btn-manual-grab' }
+    centerElement: true
+- assertVisible: { id: 'btn-manual-grab' }
+- tapOn: { id: 'btn-manual-grab' }
+- assertVisible: { id: 'manual-grab-submit' }
+- tapOn: { id: 'input-magnet' }
+- inputText: 'magnet:?xt=urn:btih:c12fe1c06bba254a9dc9f519b335aa7c1367a88a'
+# iOS: skip hideKeyboard. Its mid-screen dismissal tap lands on the sheet's
+# keyboard-avoided buttons and submits early (seen in CI debug artifacts:
+# "Magnet added." already on screen when the next assert ran). The
+# KeyboardAvoidingView keeps the submit button visible above the keyboard, so
+# no dismissal is needed. Android: the sheet sits behind the keyboard until
+# it's dismissed, and hideKeyboard (back-equivalent) is reliable there.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- assertVisible: { id: 'manual-grab-submit' }
+- tapOn: { id: 'manual-grab-submit' }
+# Sheet closes; the screen confirms inline and points at Activity.
+- assertNotVisible: { id: 'manual-grab-submit' }
+- assertVisible: { text: 'Magnet added.*' }

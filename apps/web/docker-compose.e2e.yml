@@ -1,0 +1,165 @@
+services:
+  bookkeeprr:
+    # Image is normally built before `compose up` runs — by
+    # apps/web/scripts/e2e-run.ts locally, or by the CI job (which uses
+    # `docker build --cache-from $CI_REGISTRY_IMAGE:latest` so almost every
+    # layer is reused from the most recent main push). The `build:` block
+    # below is the fallback for `docker compose up` invoked directly without
+    # the script — compose only builds when no local image with the tag
+    # exists, so it does NOT redo work the script already did.
+    image: bookkeeprr:e2e
+    build:
+      context: ../../
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '13000:3000'
+    environment:
+      BOOKKEEPRR_CONFIG_DIR: /config
+      BOOKKEEPRR_MEDIA_ROOT: /media
+      BOOKKEEPRR_LOG_LEVEL: info
+      BOOKKEEPRR_OIDC_ALLOW_INSECURE: '1'
+      # Required when any user has TOTP enabled — used by signChallengeToken
+      # in src/server/auth/totp-challenge.ts. Without it, /api/auth/login
+      # throws on TOTP-gated users. The value is e2e-only; production deploys
+      # set it from .env / orchestrator secrets.
+      BOOKKEEPRR_SESSION_SECRET: e2e-fixed-session-secret-not-for-production-use
+    tmpfs:
+      - /config
+      - /media
+    # Shared with the qbittorrent service so the importer can read the files
+    # qBit reports at `torrent.save_path + file.name`. The grabber tells qBit to
+    # save under `/media/downloads/incomplete` (SAVE_PATH), so the shared volume
+    # MUST mount at /media/downloads in BOTH containers — otherwise qBit writes
+    # into its own container and the importer can't find the file (ENOENT).
+    # /media itself is tmpfs (library output); the volume overlays the downloads
+    # subpath. Hardlinks across the volume→tmpfs boundary fall back to copy.
+    volumes:
+      - downloads:/media/downloads
+    extra_hosts:
+      # Map `host.docker.internal` to the host gateway so the OIDC code-flow
+      # resolves the same issuer URL the browser sees (http://host.docker.internal:18080/bookkeeprr).
+      - 'host.docker.internal:host-gateway'
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/api/health']
+      interval: 2s
+      timeout: 1s
+      retries: 30
+    networks:
+      - bk-e2e
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - '18081:80'
+    volumes:
+      - ./tests/e2e/fixtures/Caddyfile:/etc/caddy/Caddyfile:ro
+    networks:
+      - bk-e2e
+    depends_on:
+      bookkeeprr:
+        condition: service_healthy
+
+  mock-oauth2:
+    image: ghcr.io/navikt/mock-oauth2-server:2.1.10
+    ports:
+      - '18080:8080'
+    environment:
+      # Bind on all interfaces so both the browser (via 127.0.0.1:18080) and
+      # the bookkeeprr container (via the host-gateway extra_hosts mapping)
+      # can reach the IdP. mock-oauth2 derives the issuer from the incoming
+      # request's Host header; if both sides hit it as
+      # `host.docker.internal:18080` the iss/aud claims line up.
+      SERVER_HOSTNAME: 0.0.0.0
+      JSON_CONFIG: |
+        {
+          "interactiveLogin": false,
+          "tokenCallbacks": [
+            {
+              "issuerId": "bookkeeprr",
+              "tokenExpiry": 3600,
+              "requestMappings": [{
+                "requestParam": "grant_type",
+                "match": "authorization_code",
+                "claims": {
+                  "sub": "alice-sub",
+                  "preferred_username": "alice",
+                  "email": "alice@example.com",
+                  "groups": ["bookkeeprr-users", "bookkeeprr-admins"]
+                }
+              }]
+            }
+          ]
+        }
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'wget --spider -q http://localhost:8080/bookkeeprr/.well-known/openid-configuration',
+        ]
+      interval: 2s
+      retries: 30
+    networks:
+      - bk-e2e
+
+  # qBittorrent for the acquisition-pipeline e2e (tests/e2e/11-acquisition-pipeline.e2e.ts).
+  # Mounts a deterministic config that disables WebUI auth for any IP in the
+  # e2e bridge network, so the test can drive POST /api/qbt/test-connection +
+  # POST /api/settings/qbt without a password-hash dance. The config also pins
+  # the WebUI to port 8080 with HTTPS off. The WebUI is also exposed on host
+  # port 18090 so the e2e test can poll torrent state directly from the
+  # Playwright runner.
+  qbittorrent:
+    image: linuxserver/qbittorrent:4.6.7
+    ports:
+      - '18090:8080'
+    environment:
+      # Run qBit as root so it can write downloads into the root-owned shared
+      # `downloads` volume (mounted at /media/downloads). As PUID 1000 it cannot
+      # create the incomplete/ dir there, so the file never reaches the importer.
+      PUID: '0'
+      PGID: '0'
+      TZ: UTC
+      WEBUI_PORT: '8080'
+    volumes:
+      - ./tests/e2e/fixtures/qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf:ro
+      # Shared with the bookkeeprr service so the importer can read the files
+      # qBit writes here (sourcePath = torrent.save_path + file.name). Mounted at
+      # /media/downloads to match the grabber's SAVE_PATH (/media/downloads/incomplete).
+      - downloads:/media/downloads
+    networks:
+      - bk-e2e
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'curl -fs http://localhost:8080/api/v2/app/version >/dev/null'
+      interval: 3s
+      timeout: 2s
+      retries: 30
+
+  # Mock Nyaa indexer for slice 2 of the acquisition-pipeline e2e. Serves a
+  # one-item Nyaa-style RSS feed pointing at a real WebSeed torrent (16 KiB
+  # payload) so qBit completes the download via HTTP without needing peers.
+  mock-nyaa:
+    image: node:22-alpine
+    working_dir: /app
+    command: ['node', 'server.mjs']
+    volumes:
+      - ./tests/e2e/fixtures/mock-nyaa/server.mjs:/app/server.mjs:ro
+    networks:
+      - bk-e2e
+    healthcheck:
+      test:
+        - 'CMD-SHELL'
+        - 'wget --spider -q http://localhost:8080/healthz'
+      interval: 2s
+      timeout: 1s
+      retries: 30
+
+networks:
+  bk-e2e:
+    driver: bridge
+
+volumes:
+  # Named volume shared by qbittorrent + bookkeeprr so the importer can read
+  # qBit's downloaded files. Anonymous tmpfs would isolate the two views.
+  downloads:

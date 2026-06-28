@@ -1,0 +1,30 @@
+appId: com.bookkeeprr.app
+# Access-settings e2e: create a user through the native admin Users screen.
+#
+# Runs against a LIVE bookkeeprr instance (not the in-app fetch mock) because
+# the mock does not back the /api/users CRUD endpoints. Reuses the real-server
+# onboarding sub-flow; prerequisites + invocation are documented in
+# ../onboarding/connected-real-server.yaml. The seeded bypass user must be an
+# admin for the ACCESS rows to be visible.
+#
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://10.0.2.2:3000 \
+#     tests/e2e/system/users-create.yaml
+env:
+  EXPO_PUBLIC_MOBILE_E2E_FORCE_TABLET: '0'
+---
+- runFlow: { file: ../onboarding/connected-real-server.yaml }
+# connected-real-server lands on the library grid; jump to Settings.
+- tapOn: { text: 'Settings' }
+- assertVisible: { id: 'screen-settings' }
+- scrollUntilVisible:
+    element: { id: 'row-users' }
+    centerElement: true
+- tapOn: { id: 'row-users' }
+- assertVisible: { id: 'screen-users' }
+- tapOn: { id: 'btn-add-user' }
+- tapOn: { id: 'cu-username' }
+- inputText: 'maestro_user'
+- tapOn: { id: 'cu-password' }
+- inputText: 'maestro-pass-123'
+- tapOn: { id: 'cu-submit' }
+- assertVisible: { text: 'maestro_user' }

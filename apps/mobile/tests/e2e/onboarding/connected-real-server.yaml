@@ -1,0 +1,35 @@
+appId: com.bookkeeprr.app
+# Real-server onboarding smoke test.
+#
+# Unlike every other flow under tests/e2e/, this one drives a LIVE bookkeeprr
+# instance instead of the in-app fetch mock. Prerequisites:
+#   1. apps/web running with `BOOKKEEPRR_E2E_LOGIN_BYPASS=1` and a seeded user
+#      (see apps/web/scripts/e2e-seed-user.ts).
+#   2. The server reachable from the device/emulator at $BOOKKEEPRR_E2E_SERVER_URL
+#      (e.g. http://10.0.2.2:3000 for an Android emulator reaching the host).
+#
+# Run with the URL injected as a Maestro param:
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://10.0.2.2:3000 \
+#     tests/e2e/onboarding/connected-real-server.yaml
+#
+# REAL_SERVER=1 tells the app NOT to install the fetch mock; AUTOAUTH=1 skips
+# the browser handoff and posts the fixed bypass code to the real server.
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_REAL_SERVER: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- tapOn: { id: 'btn-get-started' }
+- tapOn: { id: 'btn-continue' }
+- tapOn: { id: 'input-server-url' }
+- inputText: '${BOOKKEEPRR_E2E_SERVER_URL}'
+# Submit via the keyboard's return key (ServerUrl input onSubmitEditing) —
+# avoids the flaky iOS hideKeyboard and the keyboard covering btn-connect.
+- pressKey: Enter
+# AuthHandoff auto-launches the browser on mount; the AUTOAUTH bypass posts
+# the fixed exchange code to the real server, so no manual tap is needed.
+- assertVisible: { id: 'screen-connected' }
+- assertVisible: { id: 'btn-go-library' }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }

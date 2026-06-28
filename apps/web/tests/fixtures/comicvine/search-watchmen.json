@@ -1,0 +1,28 @@
+{
+  "error": "OK",
+  "limit": 20,
+  "offset": 0,
+  "number_of_page_results": 2,
+  "number_of_total_results": 2,
+  "status_code": 1,
+  "results": [
+    {
+      "id": 18847,
+      "name": "Watchmen",
+      "publisher": { "id": 10, "name": "DC Comics" },
+      "start_year": "1986",
+      "count_of_issues": 12,
+      "image": { "small_url": "https://example.com/watchmen-cover.jpg" },
+      "description": "<p>The classic 1986 maxiseries.</p>"
+    },
+    {
+      "id": 99999,
+      "name": "Watchmen (Reprint)",
+      "publisher": null,
+      "start_year": null,
+      "count_of_issues": null,
+      "image": null,
+      "description": null
+    }
+  ]
+}

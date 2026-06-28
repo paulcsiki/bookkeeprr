@@ -1,0 +1,49 @@
+{
+  "versions": [
+    {
+      "version": "0.6.0",
+      "date": "2026.05.26",
+      "summary": "M7 · Push notifications — Firebase messaging, in-app banner, deep-link tap routing.",
+      "sections": [
+        {
+          "kind": "feat",
+          "label": "Push notifications",
+          "items": [
+            "@react-native-firebase/messaging wired into the bare-RN app",
+            "Settings → Push notifications screen with 3 states (cloud disabled / off / on)",
+            "Foreground in-app banner with auto-dismiss + tap-to-deep-link routing",
+            "Background message handler + notification-tap deep-link routing for cold launches",
+            "4 new Maestro e2e flows; 32/32 flows green",
+            "Requires google-services.json (Android) and GoogleService-Info.plist (iOS) — see operator-todo.md"
+          ]
+        },
+        {
+          "kind": "fix",
+          "label": "Brand parity",
+          "items": [
+            "Native launcher icon geometry mirrors the bookkeeprr design system (long/longest/short bars with rounded corners)"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "0.1.0",
+      "date": "2026.05.26",
+      "summary": "First public release · onboarding, library, activity, settings, audit.",
+      "sections": [
+        {
+          "kind": "feat",
+          "label": "Initial release",
+          "items": [
+            "Onboarding wizard with system-browser auth handoff (forms / OIDC / forward-proxy)",
+            "Library grid + list, series overview, volumes tab",
+            "Add-series search across AniList / ComicVine / OpenLibrary / Audnex",
+            "Filter & sort sheet, interactive release picker with grab mutation",
+            "Activity queue + history (5s poll), audit log with verb badges",
+            "Settings home with seven accent themes and light/dark scheme switcher"
+          ]
+        }
+      ]
+    }
+  ]
+}

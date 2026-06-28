@@ -1,0 +1,27 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# See library-list.yaml — runFlow's connected.yaml does its own
+# launchApp clearState. Double-launching crashes Android and flakes iOS.
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+# Wait for Library to settle before tapping the FAB. The btn-go-library
+# tap fires navigation.reset; on Android the touch event can propagate
+# into the LibraryHome empty state's "Add series" Pressable (which
+# happens to land at roughly the same screen coordinates as the
+# Connected screen's button), opening AddSeries before we get a chance
+# to tap the tab bar. Job 1236 captured this exact mis-routing.
+- extendedWaitUntil:
+    visible: { id: 'grid-card-1' }
+    timeout: 10000
+# Add Series lives on the raised center FAB in the tab bar
+# (AppTabBar.tsx). testID is tab-add-fab, not btn-add.
+- tapOn: { id: 'tab-add-fab' }
+- assertVisible: { id: 'screen-add-search' }
+- tapOn: { id: 'input-add-search' }
+- inputText: 'vinland'
+- assertVisible: { text: 'Vinland Saga' }
+- tapOn: { id: 'filter-novel' }
+- assertVisible: { text: 'Vinland Saga · Light Novel' }

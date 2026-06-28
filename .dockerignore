@@ -1,0 +1,37 @@
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+.superpowers
+.vscode
+.idea
+README.md
+
+# Build output / deps — matched at ANY depth. The build context is the repo
+# ROOT (see docker-compose.e2e.yml `context: ../../` and the Dockerfile build
+# args), so Docker reads THIS .dockerignore and patterns must use **/ to match
+# nested workspace paths like apps/web/node_modules. A bare `node_modules`
+# only matches the context root and would let the nested copies through.
+**/node_modules
+**/.next
+**/dist
+**/coverage
+**/playwright-report
+**/test-results
+**/*.log
+# Repo-level docs only — **/docs also swallowed apps/website/src/app/docs
+# (the API-reference route) out of the image. Anchor to the root.
+/docs
+**/tests
+
+# Local SQLite dev DBs MUST NOT be baked into the image. The dev DB holds real
+# user rows; if copied to apps/web/bookkeeprr.dev.db inside the image it makes
+# every "fresh" e2e container start with a user, so the first-run gate is
+# skipped and the whole e2e suite cascades red. (Prod is unaffected because it
+# sets BOOKKEEPRR_DB_PATH=/config/..., but we still must not ship dev data.)
+**/bookkeeprr.dev.db
+**/bookkeeprr.dev.db-*
+**/*.db
+**/*.db-wal
+**/*.db-shm

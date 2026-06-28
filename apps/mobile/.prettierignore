@@ -1,0 +1,9 @@
+node_modules
+.expo
+ios
+android
+dist
+build
+docs
+pnpm-lock.yaml
+src/features/reader/generated

@@ -1,0 +1,23 @@
+{
+  "name": "@bookkeeprr/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": [
+    "./tokens.css",
+    "./themes.css",
+    "./reader-themes.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./tokens.css",
+    "./themes.css": "./themes.css",
+    "./reader-themes.css": "./reader-themes.css"
+  },
+  "files": [
+    "src",
+    "tokens.css",
+    "themes.css",
+    "reader-themes.css"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "bookkeeprr-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @bookkeeprr/web dev",
+    "build": "pnpm -r run build",
+    "build:web": "pnpm --filter @bookkeeprr/web build",
+    "start": "pnpm --filter @bookkeeprr/web start",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "test:unit": "pnpm -r run test:unit",
+    "test:integration": "pnpm -r run test:integration",
+    "test:e2e": "pnpm --filter @bookkeeprr/web test:e2e",
+    "test:e2e:headed": "pnpm --filter @bookkeeprr/web test:e2e:headed",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss@<8.5.10": ">=8.5.10",
+      "esbuild@<0.25.0": ">=0.25.0",
+      "jest-environment-node": "latest",
+      "jest-mock": "latest",
+      "jest-runtime": "latest",
+      "@jest/globals": "latest",
+      "@jest/types": "latest",
+      "react-test-renderer": "19.2.3",
+      "uuid@<11.1.1": "^11.1.1"
+    },
+    "patchedDependencies": {
+      "react-native-track-player@4.1.2": "patches/react-native-track-player@4.1.2.patch"
+    }
+  }
+}

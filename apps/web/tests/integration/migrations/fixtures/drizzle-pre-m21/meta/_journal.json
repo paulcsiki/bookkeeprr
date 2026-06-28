@@ -1,0 +1,69 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1779537190606,
+      "tag": "0000_greedy_misty_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779544446740,
+      "tag": "0001_minor_mercury",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779576662488,
+      "tag": "0002_curved_iron_lad",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1779579632577,
+      "tag": "0003_cloudy_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1779582524082,
+      "tag": "0004_melodic_flatman",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779586961139,
+      "tag": "0005_indexer_poll_kind_rename",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1779615902826,
+      "tag": "0006_ebook_identifiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1779623227060,
+      "tag": "0007_audiobook_identifiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1779644552184,
+      "tag": "0008_nebulous_rumiko_fujikawa",
+      "breakpoints": true
+    }
+  ]
+}

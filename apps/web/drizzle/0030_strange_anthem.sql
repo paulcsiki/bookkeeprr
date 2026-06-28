@@ -1,0 +1,1 @@
+ALTER TABLE `reading_goals` ADD `streak_days` integer;

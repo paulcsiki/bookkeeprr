@@ -1,0 +1,24 @@
+{
+  "data": {
+    "Page": {
+      "media": [
+        {
+          "id": 105778,
+          "title": {
+            "english": "Chainsaw Man",
+            "romaji": "Chainsaw Man",
+            "native": "チェンソーマン"
+          },
+          "coverImage": {
+            "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx105778-mAGN3uREfocE.jpg",
+            "large": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx105778-mAGN3uREfocE.jpg",
+            "medium": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx105778-mAGN3uREfocE.jpg"
+          },
+          "status": "RELEASING",
+          "format": "MANGA",
+          "startDate": { "year": 2018 }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "input": "Chainsaw Man - v14 [LH].cbz",
+    "expected": { "volume": 14, "chapter": null, "group": "LH", "confidence": 0.95 }
+  },
+  {
+    "input": "Chainsaw Man - c142 [WSJ].cbz",
+    "expected": { "volume": null, "chapter": "142", "group": "WSJ", "confidence": 0.9 }
+  },
+  {
+    "input": "Chainsaw Man - c001-012 [LH].cbz",
+    "expected": { "volume": null, "chapter": "001-012", "group": "LH", "confidence": 0.85 }
+  },
+  {
+    "input": "Berserk v01.cbz",
+    "expected": { "volume": 1, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "Vagabond - Vol. 03 (Big Edition).cbz",
+    "expected": { "volume": 3, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "One Piece - Volume 105.cbr",
+    "expected": { "volume": 105, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "Vinland Saga - Ch. 142.5.cbz",
+    "expected": { "volume": null, "chapter": "142.5", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "Random Backup.cbz",
+    "expected": { "volume": null, "chapter": null, "group": null, "confidence": 0.1 }
+  },
+  {
+    "input": "Chainsaw Man (2024) - v14.cbz",
+    "expected": { "volume": 14, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "Series Name [GroupA] [GroupB].cbz",
+    "expected": { "volume": null, "chapter": null, "group": "GroupB", "confidence": 0.3 }
+  },
+  {
+    "input": "Solo Leveling 1080p [HQ].cbz",
+    "expected": { "volume": null, "chapter": null, "group": "HQ", "confidence": 0.3 }
+  },
+  {
+    "input": "Solo Leveling Chapter 5.cbz",
+    "expected": { "volume": null, "chapter": "5", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "Naruto vol 7.cbz",
+    "expected": { "volume": 7, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "Bleach Ch.142-145.cbz",
+    "expected": { "volume": null, "chapter": "142-145", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "Series Name [].cbz",
+    "expected": { "volume": null, "chapter": null, "group": null, "confidence": 0.1 }
+  },
+  {
+    "input": "Berserk_V04.cbz",
+    "expected": { "volume": 4, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "monogatari.c001.cbz",
+    "expected": { "volume": null, "chapter": "001", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "Series 2024.cbz",
+    "expected": { "volume": null, "chapter": null, "group": null, "confidence": 0.1 }
+  },
+  {
+    "input": "Spy x Family - v07 [VIZ].CBZ",
+    "expected": { "volume": 7, "chapter": null, "group": "VIZ", "confidence": 0.95 }
+  },
+  {
+    "input": "Watchmen #5 (1986).cbr",
+    "expected": { "volume": null, "chapter": "5", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "[Glorith-HD] Watchmen #005 (Digital).cbr",
+    "expected": { "volume": null, "chapter": "5", "group": "Glorith-HD", "confidence": 0.9 }
+  },
+  {
+    "input": "Watchmen #5-10 (1986).cbz",
+    "expected": { "volume": null, "chapter": "5-10", "group": null, "confidence": 0.85 }
+  },
+  {
+    "input": "Series Title - v01 #5.cbz",
+    "expected": { "volume": 1, "chapter": null, "group": null, "confidence": 0.9 }
+  },
+  {
+    "input": "Free Comic Book Day 2024.cbz",
+    "expected": { "volume": null, "chapter": null, "group": null, "confidence": 0.1 }
+  }
+]

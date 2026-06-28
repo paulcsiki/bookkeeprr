@@ -1,0 +1,77 @@
+/* =========================================================
+   BOOKKEEPRR DESIGN SYSTEM — TOKENS
+   Canonical reference: apps/web/docs/design/bookkeeprr-design-system.html
+   Theme variants live in themes.css; import both.
+   ========================================================= */
+@theme {
+  /* neutrals — hue 240, low chroma — match the design ramp */
+  --color-background: hsl(240 10% 4%);
+  --color-foreground: hsl(0 0% 95%);
+  --color-card: hsl(240 10% 6%);
+  --color-card-foreground: hsl(0 0% 95%);
+  --color-popover: hsl(240 10% 6%);
+  --color-popover-foreground: hsl(0 0% 95%);
+  --color-secondary: hsl(240 6% 12%);
+  --color-secondary-foreground: hsl(0 0% 95%);
+  --color-muted: hsl(240 6% 12%);
+  --color-muted-foreground: hsl(240 5% 65%);
+  --color-accent: hsl(240 6% 14%);
+  --color-accent-foreground: hsl(0 0% 95%);
+  --color-destructive: hsl(0 70% 50%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(240 5% 16%);
+  --color-input: hsl(240 5% 18%);
+
+  /* elevation scale — constant across themes. Recessed cells, raised headers,
+     chips, and the interactive hover state. Tokenized so surfaces stay in step
+     (e.g. .dtable headers + the calendar) instead of drifting as inline hsl. */
+  --color-sunken: hsl(240 6% 5%);
+  --color-elevated: hsl(240 8% 7%);
+  --color-elevated-2: hsl(240 8% 11%);
+  --color-hover: hsl(240 6% 9%);
+
+  /* primary — themable; default violet from the design artifact */
+  --color-primary: hsl(263 70% 60%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-ring: hsl(263 70% 60%);
+
+  /* content-type accents — FIXED across themes so users learn them */
+  --color-manga: oklch(0.72 0.17 18);
+  --color-novel: oklch(0.78 0.13 220);
+  --color-comic: oklch(0.8 0.16 75);
+  --color-ebook: oklch(0.74 0.14 160);
+  --color-audio: oklch(0.72 0.16 305);
+
+  /* status — OKLCH locked lightness so the traffic-light cues stay quiet */
+  --color-ok: oklch(0.74 0.14 152);
+  --color-warn: oklch(0.8 0.15 78);
+  --color-err: oklch(0.66 0.2 24);
+  --color-info: oklch(0.74 0.12 235);
+
+  /* fonts — provided as CSS variables by next/font in the consuming app's layout */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'JetBrains Mono', monospace;
+
+  --radius: 0.5rem;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+html,
+body {
+  height: 100%;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+.font-display {
+  font-family: var(--font-display);
+}

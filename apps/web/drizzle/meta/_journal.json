@@ -1,0 +1,293 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1779537190606,
+      "tag": "0000_greedy_misty_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1779544446740,
+      "tag": "0001_minor_mercury",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779576662488,
+      "tag": "0002_curved_iron_lad",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1779579632577,
+      "tag": "0003_cloudy_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1779582524082,
+      "tag": "0004_melodic_flatman",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779586961139,
+      "tag": "0005_indexer_poll_kind_rename",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1779615902826,
+      "tag": "0006_ebook_identifiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1779623227060,
+      "tag": "0007_audiobook_identifiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1779644552184,
+      "tag": "0008_nebulous_rumiko_fujikawa",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1779652016892,
+      "tag": "0009_green_iron_monger",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1748131200000,
+      "tag": "0010_forward_auth_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1748217600000,
+      "tag": "0011_audit_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1779734836117,
+      "tag": "0012_novel_updates_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1779800000000,
+      "tag": "0013_replay_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1779900000000,
+      "tag": "0014_m32_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "6",
+      "when": 1748908800000,
+      "tag": "0015_mobile_endpoints",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "6",
+      "when": 1779812631122,
+      "tag": "0016_nifty_lucky_pierre",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1780097747611,
+      "tag": "0017_perpetual_ego",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1780135727151,
+      "tag": "0018_thankful_vargas",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1780173093142,
+      "tag": "0019_productive_gorilla_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1780176780720,
+      "tag": "0020_handy_black_cat",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1780178113029,
+      "tag": "0021_foamy_maddog",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "6",
+      "when": 1780181801811,
+      "tag": "0022_smooth_blue_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1780346743141,
+      "tag": "0023_bitter_omega_sentinel",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1780354400997,
+      "tag": "0024_freezing_psynapse",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1780531439927,
+      "tag": "0025_series_mal_id",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "6",
+      "when": 1780613200274,
+      "tag": "0026_cloudy_ezekiel",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "6",
+      "when": 1780615969248,
+      "tag": "0027_puzzling_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "6",
+      "when": 1780616635943,
+      "tag": "0028_far_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "6",
+      "when": 1780618824979,
+      "tag": "0029_neat_lady_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "6",
+      "when": 1780667746158,
+      "tag": "0030_strange_anthem",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "6",
+      "when": 1780690864130,
+      "tag": "0031_spicy_green_goblin",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "6",
+      "when": 1780706353564,
+      "tag": "0032_magical_strong_guy",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1780768110292,
+      "tag": "0033_giant_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1780922678664,
+      "tag": "0034_acoustic_iron_monger",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "6",
+      "when": 1780948271323,
+      "tag": "0035_tidy_exiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "6",
+      "when": 1781032824265,
+      "tag": "0036_square_winter_soldier",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "6",
+      "when": 1781119782123,
+      "tag": "0037_superb_sharon_carter",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "6",
+      "when": 1781817509089,
+      "tag": "0038_strong_leper_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "6",
+      "when": 1782033832624,
+      "tag": "0039_activity_events_series_cascade",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "6",
+      "when": 1782038840137,
+      "tag": "0040_downloads_stall_tracking",
+      "breakpoints": true
+    }
+  ]
+}

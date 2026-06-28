@@ -1,0 +1,44 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Open the audiobook from the Continue-Reading rail, toggle playback, and open
+# the chapter list.
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see discover-search.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+
+# The rail lives on the Home dashboard (see reader-comics.yaml).
+- tapOn:
+    id: 'tab-home'
+    repeat: 2
+- extendedWaitUntil:
+    visible: { id: 'screen-home' }
+    timeout: 10000
+
+# continue-card-2 is the audiobook fixture (readableKey audio:vol:5).
+- assertVisible: { id: 'continue-reading-rail' }
+- tapOn: { id: 'continue-card-2' }
+
+# The audio player mounts with transport controls.
+- assertVisible: { id: 'reader-audio' }
+- assertVisible: { id: 'reader-audio-playpause' }
+
+# Toggle play/pause.
+- tapOn: { id: 'reader-audio-playpause' }
+
+# Open the chapter list (the manifest fixture carries two chapters). Assert
+# ONLY the Pressable chapter rows: every container View inside the overlay
+# (reader-overlay-toc wrapper, the reader-toc-panel BottomSheet root) is
+# absent from the AX snapshot for the full 10s window even while the sheet is
+# plainly open in the failure screenshots (jobs 2826/2840/2854) — iOS appears
+# to occlusion-cull full-bleed containers covered by their own children.
+# Interactive elements (reader-toc-btn, the rows) always surface.
+- tapOn: { id: 'reader-toc-btn' }
+- extendedWaitUntil:
+    visible: { id: 'reader-toc-item-0' }
+    timeout: 10000
+- assertVisible: { id: 'reader-toc-item-1' }

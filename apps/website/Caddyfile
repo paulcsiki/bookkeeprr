@@ -1,0 +1,24 @@
+{
+    auto_https off
+}
+
+:8080 {
+    root * /srv
+    file_server
+    encode gzip zstd
+
+    # Cache versioned Next.js assets aggressively
+    @static {
+        path /_next/static/*
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # Don't cache HTML — bookkeeprr ships often
+    @html {
+        path *.html /
+    }
+    header @html Cache-Control "no-cache, must-revalidate"
+
+    # Handle Next's static-export trailing-slash convention
+    try_files {path} {path}/ {path}.html /index.html
+}

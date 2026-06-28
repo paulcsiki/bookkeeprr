@@ -1,0 +1,73 @@
+name: E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec_filter:
+        description: 'Optional grep pattern for specs (passed to playwright -g). Leave blank to run all.'
+        required: false
+        default: ''
+
+jobs:
+  e2e:
+    name: Playwright + Docker E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.0
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E suite
+        run: pnpm test:e2e ${{ inputs.spec_filter && format('-g "{0}"', inputs.spec_filter) || '' }}
+        env:
+          CI: 'true'
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 14
+
+      - name: Upload Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: playwright-traces
+          path: apps/web/test-results/
+          retention-days: 14
+
+      - name: Capture container logs on failure
+        if: failure()
+        run: |
+          mkdir -p e2e-logs
+          docker compose -f apps/web/docker-compose.e2e.yml logs bookkeeprr > e2e-logs/bookkeeprr.log 2>&1 || true
+          docker compose -f apps/web/docker-compose.e2e.yml logs mock-oauth2 > e2e-logs/mock-oauth2.log 2>&1 || true
+          docker compose -f apps/web/docker-compose.e2e.yml logs caddy > e2e-logs/caddy.log 2>&1 || true
+
+      - name: Upload container logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: container-logs
+          path: e2e-logs/
+          retention-days: 7

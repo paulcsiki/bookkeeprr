@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Mushoku Tensei - NovelUpdates</title>
+    <item>
+      <title>Mushoku Tensei v26 c264</title>
+      <link>https://example-translator.test/mushoku-v26c264</link>
+      <pubDate>Mon, 24 Mar 2026 10:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Mushoku Tensei v26 c263</title>
+      <link>https://example-translator.test/mushoku-v26c263</link>
+      <pubDate>Sun, 23 Mar 2026 10:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Mushoku Tensei v25 c238</title>
+      <link>https://example-translator.test/mushoku-v25c238</link>
+      <pubDate>Sat, 22 Mar 2026 10:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

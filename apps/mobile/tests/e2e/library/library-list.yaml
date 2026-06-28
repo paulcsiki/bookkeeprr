@@ -1,0 +1,28 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# NB: connected.yaml does its own launchApp clearState. Don't add a second
+# one here — two consecutive launchApp clearState calls within ~2s race on
+# Android (app crashes back to the home screen) and on iOS (Pressable
+# hit-test fires before the relaunched view tree settles, so btn-continue
+# is never found).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+# Same wait pattern that lets library-grid pass on Android: anchor on
+# screen-library-grid first (this is also true for the loading-skeleton
+# and empty states, but reaching it confirms navigation landed on
+# LibraryHome rather than the AddSeries modal that Android job 1223
+# captured), then on grid-card-1 which only renders once MSW data
+# arrives. btn-filter only exists in the AppBar of the data state.
+- assertVisible: { id: 'screen-library-grid' }
+- extendedWaitUntil:
+    visible: { id: 'grid-card-1' }
+    timeout: 10000
+# View toggle lives inside FilterSheet, not on the library screen:
+# tap btn-filter → tap filter-view-list → btn-filter-apply to dismiss.
+- tapOn: { id: 'btn-filter' }
+- tapOn: { id: 'filter-view-list' }
+- tapOn: { id: 'btn-filter-apply' }
+- assertVisible: { id: 'screen-library-list' }

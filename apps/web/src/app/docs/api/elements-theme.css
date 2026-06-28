@@ -1,0 +1,94 @@
+/* Stoplight Elements → bookkeeprr design tokens (webapp flavor).
+   Same approach as the marketing site's docs page: start from Elements' own
+   dark theme (data-theme="dark" on the wrapper) and re-point its custom props
+   at the app tokens from globals.css. Because every prop maps to a token, the
+   [data-mode='light'] flip carries through automatically. Prop names verified
+   against @stoplight/elements/styles.min.css ([data-theme=dark] block). */
+
+.api-reference[data-theme] {
+  /* Standalone route, no app chrome — Elements' sidebar layout scrolls
+     internally, so give it the full viewport. */
+  height: 100dvh;
+}
+
+/* Elements re-declares its props on .sl-inverted descendants (TryIt panel,
+   code samples), which would beat inherited overrides — so target both. */
+.api-reference[data-theme],
+.api-reference[data-theme] .sl-inverted {
+  /* Canvas — Elements' 50 (lightest) … 500 (darkest) ladder onto background/card/muted. */
+  --color-canvas-pure: var(--color-background);
+  --color-canvas: var(--color-background);
+  --color-canvas-500: var(--color-background);
+  --color-canvas-400: var(--color-background);
+  --color-canvas-300: var(--color-card);
+  --color-canvas-200: var(--color-card);
+  --color-canvas-100: var(--color-muted);
+  --color-canvas-50: color-mix(in oklab, var(--color-foreground) 7%, var(--color-background));
+  --color-canvas-dark: var(--color-card);
+  --color-canvas-dialog: var(--color-card);
+  --color-canvas-tint: color-mix(in oklab, var(--color-foreground) 4%, var(--color-background));
+
+  /* Text */
+  --color-text-heading: var(--color-foreground);
+  --color-text: var(--color-foreground);
+  --color-text-paragraph: var(--color-foreground);
+  --color-text-muted: var(--color-muted-foreground);
+  --color-text-light: var(--color-muted-foreground);
+  --color-text-disabled: color-mix(
+    in oklab,
+    var(--color-muted-foreground) 60%,
+    var(--color-background)
+  );
+
+  /* Borders. Mosaic also names its prop --color-border, so referencing the
+     app's --color-border here would be a self-reference (invalid at
+     computed-value time → falls back to mosaic's inherited value). Use the
+     collision-free --color-input token (2% lighter — visually equivalent). */
+  --color-border-dark: var(--color-input);
+  --color-border: var(--color-input);
+  --color-border-light: var(--color-input);
+  --color-border-input: var(--color-input);
+  --color-border-button: var(--color-input);
+
+  /* Accent — the one themable token; shades derived from it, never
+     hand-picked. Same collision: mosaic names its prop --color-primary too,
+     so pull the app accent through --color-ring, which every theme sets to
+     the identical value (packages/tokens/themes.css). */
+  --color-primary: var(--color-ring);
+  --color-primary-light: color-mix(in oklab, var(--color-ring) 88%, white);
+  --color-primary-dark: color-mix(in oklab, var(--color-ring) 80%, black);
+  --color-primary-darker: color-mix(in oklab, var(--color-ring) 65%, black);
+  --color-primary-tint: color-mix(
+    in oklab,
+    var(--color-ring) 18%,
+    var(--color-background)
+  ); /* solid, no alpha */
+  --color-text-primary: var(--color-ring);
+  --color-on-primary: var(--color-primary-foreground);
+
+  /* Status → app status tokens (HTTP-method/code badges). Tints mixed with
+     the canvas so badge backgrounds stay SOLID — never translucent. */
+  --color-success: var(--color-ok);
+  --color-success-light: color-mix(in oklab, var(--color-ok) 88%, white);
+  --color-success-dark: color-mix(in oklab, var(--color-ok) 80%, black);
+  --color-success-darker: color-mix(in oklab, var(--color-ok) 65%, black);
+  --color-success-tint: color-mix(in oklab, var(--color-ok) 18%, var(--color-background));
+  --color-text-success: var(--color-ok);
+  --color-warning: var(--color-warn);
+  --color-warning-light: color-mix(in oklab, var(--color-warn) 88%, white);
+  --color-warning-dark: color-mix(in oklab, var(--color-warn) 80%, black);
+  --color-warning-darker: color-mix(in oklab, var(--color-warn) 65%, black);
+  --color-warning-tint: color-mix(in oklab, var(--color-warn) 18%, var(--color-background));
+  --color-text-warning: var(--color-warn);
+  --color-danger: var(--color-err);
+  --color-danger-light: color-mix(in oklab, var(--color-err) 88%, white);
+  --color-danger-dark: color-mix(in oklab, var(--color-err) 80%, black);
+  --color-danger-darker: color-mix(in oklab, var(--color-err) 65%, black);
+  --color-danger-tint: color-mix(in oklab, var(--color-err) 18%, var(--color-background));
+  --color-text-danger: var(--color-err);
+
+  /* Fonts — Geist for UI/prose, Geist Mono for code. */
+  --font-prose: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-code: var(--font-mono);
+}

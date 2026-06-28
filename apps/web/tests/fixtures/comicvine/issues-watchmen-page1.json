@@ -1,0 +1,25 @@
+{
+  "error": "OK",
+  "limit": 5,
+  "offset": 0,
+  "number_of_page_results": 5,
+  "number_of_total_results": 8,
+  "status_code": 1,
+  "results": [
+    {
+      "id": 1001,
+      "issue_number": "1",
+      "name": "At Midnight, All the Agents...",
+      "cover_date": "1986-09-01"
+    },
+    { "id": 1002, "issue_number": "2", "name": "Absent Friends", "cover_date": "1986-10-01" },
+    {
+      "id": 1003,
+      "issue_number": "3",
+      "name": "The Judge of All the Earth",
+      "cover_date": "1986-11-01"
+    },
+    { "id": 1004, "issue_number": "0.5", "name": "Preview", "cover_date": null },
+    { "id": 1005, "issue_number": "4", "name": "Watchmaker", "cover_date": "1986-12-01" }
+  ]
+}

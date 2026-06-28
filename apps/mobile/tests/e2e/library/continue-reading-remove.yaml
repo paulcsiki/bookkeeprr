@@ -1,0 +1,39 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Long-press a Continue-Reading card → confirm removal → the card disappears.
+# The e2e fetch mock answers DELETE /api/reader/progress/<key> and drops the
+# key from subsequent GET /api/reader/progress responses, so after the
+# mutation's query invalidation the rail refetches without the card.
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see discover-search.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+# The rail lives on the Home dashboard. iOS Maestro on the tab bar's Pressable
+# is flaky — tapping twice gives navigation a second chance (the second tap is
+# a no-op if Home is already focused). Same pattern as discover-search.yaml.
+- tapOn:
+    id: 'tab-home'
+    repeat: 2
+- extendedWaitUntil:
+    visible: { id: 'screen-home' }
+    timeout: 10000
+- assertVisible: { id: 'continue-reading-rail' }
+- assertVisible: { id: 'continue-card-1' }
+- longPressOn: { id: 'continue-card-1' }
+# Assert the sheet's BUTTONS, not its container: the sheet is hosted in a
+# transparent Modal (so it slides over the screen instead of squashing inline
+# — see ContinueReadingRail), and full-bleed container Views inside overlays
+# are culled from the iOS AX snapshot while interactive elements always
+# surface (job 2896; same rule as reader-audio's TOC). extendedWaitUntil
+# absorbs the Modal's slide-up animation.
+- extendedWaitUntil:
+    visible: { id: 'continue-remove-confirm' }
+    timeout: 10000
+- tapOn: { id: 'continue-remove-confirm' }
+- assertNotVisible: { id: 'continue-remove-confirm' }
+# The DELETE stuck server-side (mock), so the refetched rail omits the card.
+- assertNotVisible: { id: 'continue-card-1' }

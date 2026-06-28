@@ -1,0 +1,80 @@
+/* Stoplight Elements → bookkeeprr design tokens.
+   Scoped to the /docs/api wrapper. We start from Elements' own dark theme
+   (data-theme="dark" on the wrapper) and re-point its custom props at the
+   site tokens from globals.css. Prop names verified against
+   @stoplight/elements/styles.min.css ([data-theme=dark] block). */
+
+.api-reference[data-theme='dark'] {
+  /* Standalone route, no site chrome — Elements' sidebar layout scrolls
+     internally, so give it the full viewport. */
+  height: 100dvh;
+}
+
+/* Elements re-declares its props on .sl-inverted descendants (TryIt panel,
+   code samples), which would beat inherited overrides — so target both. */
+.api-reference[data-theme='dark'],
+.api-reference[data-theme='dark'] .sl-inverted {
+  /* Canvas — Elements' 50 (lightest) … 500 (darkest) ladder onto bg/bg-soft/bg-elev. */
+  --color-canvas-pure: var(--bg);
+  --color-canvas: var(--bg);
+  --color-canvas-500: var(--bg);
+  --color-canvas-400: var(--bg);
+  --color-canvas-300: var(--bg-soft);
+  --color-canvas-200: var(--bg-soft);
+  --color-canvas-100: var(--bg-elev);
+  --color-canvas-50: color-mix(in oklab, var(--fg) 7%, var(--bg));
+  --color-canvas-dark: var(--bg-elev);
+  --color-canvas-dialog: var(--bg-elev);
+  --color-canvas-tint: color-mix(in oklab, var(--fg) 4%, var(--bg));
+
+  /* Text */
+  --color-text-heading: var(--fg);
+  --color-text: var(--fg);
+  --color-text-paragraph: var(--fg-soft);
+  --color-text-muted: var(--muted);
+  --color-text-light: var(--muted-2);
+  --color-text-disabled: var(--faint);
+
+  /* Borders */
+  --color-border-dark: var(--border);
+  --color-border: var(--border);
+  --color-border-light: var(--border-2);
+  --color-border-input: var(--border-2);
+  --color-border-button: var(--border-2);
+
+  /* Accent — the one themable token; shades derived from it, never hand-picked. */
+  --color-primary: var(--primary);
+  --color-primary-light: color-mix(in oklab, var(--primary) 88%, white);
+  --color-primary-dark: color-mix(in oklab, var(--primary) 80%, black);
+  --color-primary-darker: color-mix(in oklab, var(--primary) 65%, black);
+  --color-primary-tint: color-mix(in oklab, var(--primary) 18%, var(--bg)); /* solid, no alpha */
+  --color-text-primary: var(--primary);
+  --color-on-primary: var(--primary-fg);
+
+  /* Status → site status tokens (HTTP-method/code badges). Tints mixed with
+     the canvas so badge backgrounds stay SOLID — never translucent. */
+  --color-success: var(--ok);
+  --color-success-light: color-mix(in oklab, var(--ok) 88%, white);
+  --color-success-dark: color-mix(in oklab, var(--ok) 80%, black);
+  --color-success-darker: color-mix(in oklab, var(--ok) 65%, black);
+  --color-success-tint: color-mix(in oklab, var(--ok) 18%, var(--bg));
+  --color-text-success: var(--ok);
+  --color-warning: var(--warn);
+  --color-warning-light: color-mix(in oklab, var(--warn) 88%, white);
+  --color-warning-dark: color-mix(in oklab, var(--warn) 80%, black);
+  --color-warning-darker: color-mix(in oklab, var(--warn) 65%, black);
+  --color-warning-tint: color-mix(in oklab, var(--warn) 18%, var(--bg));
+  --color-text-warning: var(--warn);
+  --color-danger: var(--err);
+  --color-danger-light: color-mix(in oklab, var(--err) 88%, white);
+  --color-danger-dark: color-mix(in oklab, var(--err) 80%, black);
+  --color-danger-darker: color-mix(in oklab, var(--err) 65%, black);
+  --color-danger-tint: color-mix(in oklab, var(--err) 18%, var(--bg));
+  --color-text-danger: var(--err);
+
+  /* Fonts — Geist for UI/prose, Geist Mono for code. Elements' --font-mono
+     shares its name with the site token, so it inherits Geist Mono for free. */
+  --font-prose: var(--font-body);
+  --font-ui: var(--font-body);
+  --font-code: var(--font-mono);
+}

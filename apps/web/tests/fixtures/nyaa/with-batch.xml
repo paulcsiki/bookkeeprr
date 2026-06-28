@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:nyaa="https://nyaa.si/xmlns/nyaa" version="2.0">
+  <channel>
+    <title>Nyaa - "Naruto" - RSS</title>
+    <link>https://nyaa.si/</link>
+    <item>
+      <title>[Group] Naruto v01-72 Complete</title>
+      <link>https://nyaa.si/download/9876543.torrent</link>
+      <guid isPermaLink="true">https://nyaa.si/view/9876543</guid>
+      <pubDate>Wed, 24 May 2026 10:30:00 +0000</pubDate>
+      <nyaa:seeders>500</nyaa:seeders>
+      <nyaa:leechers>10</nyaa:leechers>
+      <nyaa:downloads>2000</nyaa:downloads>
+      <nyaa:infoHash>cccccccccccccccccccccccccccccccccccccccc</nyaa:infoHash>
+      <nyaa:categoryId>3_1</nyaa:categoryId>
+      <nyaa:category>Literature - English-translated</nyaa:category>
+      <nyaa:size>4.2 GiB</nyaa:size>
+      <nyaa:comments>5</nyaa:comments>
+      <nyaa:trusted>Yes</nyaa:trusted>
+      <nyaa:remake>No</nyaa:remake>
+    </item>
+  </channel>
+</rss>

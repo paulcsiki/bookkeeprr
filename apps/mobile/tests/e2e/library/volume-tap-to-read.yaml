@@ -1,0 +1,31 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Tap-to-read from the Volumes tab. Owned volumes carry `libraryFileId`
+# (fixtureDetail sets it for every downloaded volume), so tapping vol-1 of
+# Vinland Saga (manga → paged) opens the Reader route by fileId; the e2e fetch
+# mock resolves manifests without a volumeId param to the comics manifest, so
+# the comics reader mounts.
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see discover-search.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+- assertVisible: { id: 'grid-card-1' }
+- tapOn: { id: 'grid-card-1' }
+- assertVisible: { id: 'screen-series-overview' }
+- assertVisible: { id: 'btn-volumes' }
+- tapOn: { id: 'btn-volumes' }
+- assertVisible: { id: 'screen-series-volumes' }
+- assertVisible: { id: 'vol-1' }
+- tapOn: { id: 'vol-1' }
+# The reader opens on the mocked comics manifest.
+- assertVisible: { id: 'reader-comics' }
+# Assert the reader CHROME, not the page image: comic pages load through the
+# native image pipeline (FastImage), which bypasses the JS fetch mock — under
+# the mock the image never decodes and iOS exposes no accessibility element
+# for it (job 2780 failed 3/3 on reader-comic-page while reader-comics passed).
+# Real pixel rendering is covered by the real-server e2e job.
+- assertVisible: { id: 'reader-tap-overlay' }

@@ -1,0 +1,42 @@
+/* =========================================================
+   BOOKKEEPRR — THEME VARIANTS
+   Same chroma/lightness, vary hue. next-themes (or equivalent)
+   swaps the body class. Light-accent themes flip
+   --color-primary-foreground to dark ink so buttons stay readable.
+   ========================================================= */
+.theme-violet {
+  --color-primary: hsl(263 70% 60%);
+  --color-ring: hsl(263 70% 60%);
+}
+.theme-amber {
+  --color-primary: hsl(38 82% 58%);
+  --color-ring: hsl(38 82% 58%);
+  --color-primary-foreground: hsl(38 30% 10%);
+}
+.theme-rose {
+  --color-primary: hsl(348 80% 62%);
+  --color-ring: hsl(348 80% 62%);
+}
+.theme-teal {
+  --color-primary: hsl(174 70% 50%);
+  --color-ring: hsl(174 70% 50%);
+}
+.theme-sky {
+  --color-primary: hsl(208 90% 62%);
+  --color-ring: hsl(208 90% 62%);
+}
+.theme-lime {
+  --color-primary: hsl(96 62% 56%);
+  --color-ring: hsl(96 62% 56%);
+  --color-primary-foreground: hsl(96 30% 10%);
+}
+.theme-mono {
+  --color-primary: hsl(0 0% 90%);
+  --color-ring: hsl(0 0% 90%);
+  --color-primary-foreground: hsl(240 10% 6%);
+}
+.theme-ink {
+  --color-primary: hsl(0 0% 12%);
+  --color-ring: hsl(0 0% 12% / 0.40);
+  --color-primary-foreground: hsl(0 0% 98%);
+}

@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+# Pin to versions known to work with RN 0.85 + Firebase iOS SDK.
+# Requires Ruby >= 2.7 (brew install ruby or rbenv/asdf — macOS system
+# Ruby 2.6 is too old for current fastlane).
+gem 'cocoapods', '~> 1.15'
+gem 'fastlane', '~> 2.235'

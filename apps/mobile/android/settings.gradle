@@ -1,0 +1,35 @@
+pluginManagement {
+  def reactNativeGradlePlugin = new File(
+    providers.exec {
+      workingDir(rootDir)
+      commandLine("node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })")
+    }.standardOutput.asText.get().trim()
+  ).getParentFile().absolutePath
+  includeBuild(reactNativeGradlePlugin)
+}
+
+plugins {
+  id("com.facebook.react.settings")
+}
+
+def reactNativeGradlePluginPath = new File(
+  providers.exec {
+    workingDir(rootDir)
+    commandLine("node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })")
+  }.standardOutput.asText.get().trim()
+).getParentFile().absolutePath
+
+includeBuild(reactNativeGradlePluginPath) {
+  dependencySubstitution {
+    substitute(module("com.facebook.react:react-native-gradle-plugin"))
+      .using(project(":react-native-gradle-plugin"))
+  }
+}
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
+  ex.autolinkLibrariesFromCommand()
+}
+
+rootProject.name = 'Bookkeeprr'
+
+include ':app'

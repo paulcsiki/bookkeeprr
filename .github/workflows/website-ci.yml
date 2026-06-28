@@ -1,0 +1,58 @@
+name: Website CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @bookkeeprr/website lint
+      - run: pnpm --filter @bookkeeprr/website typecheck
+      - run: pnpm --filter @bookkeeprr/website build
+      - name: Upload static export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-out
+          path: apps/website/out
+          retention-days: 7
+
+  image:
+    needs: check
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/website/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/bookkeeprr-website:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

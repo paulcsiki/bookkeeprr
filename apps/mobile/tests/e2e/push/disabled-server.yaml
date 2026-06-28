@@ -1,0 +1,17 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+- launchApp: { clearState: true }
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- assertVisible: { id: 'screen-settings' }
+- scrollUntilVisible:
+    element: { id: 'row-push-notifications' }
+    centerElement: true
+- tapOn: { id: 'row-push-notifications' }
+- assertVisible: { id: 'screen-push-notifications' }
+- assertVisible: { id: 'push-disabled-server' }
+- assertVisible: 'Push notifications cannot be enabled because cloud services are turned off on this server.'

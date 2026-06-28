@@ -1,0 +1,11 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+---
+- launchApp: { clearState: true }
+- tapOn: { id: 'btn-get-started' }
+- assertVisible: { id: 'screen-features' }
+- assertVisible: { text: 'Library' }
+- assertVisible: { text: 'Add series' }
+- tapOn: { id: 'btn-continue' }
+- assertVisible: { id: 'screen-server-url' }

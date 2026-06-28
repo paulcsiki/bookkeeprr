@@ -1,0 +1,55 @@
+# System group — airplane-mode offline flow (Android only).
+#
+# Exercises the real offline UX end-to-end on a device against a LIVE server:
+#   1. App launches online — the Library grid renders from the server.
+#   2. setAirplaneMode: enabled → NetInfo reports disconnected →
+#      connectivityMonitor flips setDeviceOnline(false) → deriveIsOnline() turns
+#      false. We navigate to an admin server-class settings screen (qBittorrent)
+#      whose query has no cached data offline, so it renders
+#      `settings-offline-state` — the stable, downloads-independent offline
+#      affordance (the seed may have no downloads, so we avoid the Downloaded
+#      rail on purpose).
+#   3. setAirplaneMode: disabled → NetInfo reconnects → setDeviceOnline(true) →
+#      the paused query resumes and the real qBittorrent form (`qbt-host`) loads.
+#
+# airplane-mode is Android-only, so this flow is Android-only. Modeled on
+# tests/e2e/system/cloud.yaml + tests/e2e/library/continue-reading-remove.yaml.
+# Relies on the AUTOAUTH session from the connected onboarding flow.
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android (see library-list.yaml / cloud.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+
+# ── Step 1: go offline. ──
+- setAirplaneMode: enabled
+
+# Offline affordance must be reachable: an admin server-class settings screen
+# renders settings-offline-state when its query has no offline cache. Navigate
+# Settings → qBittorrent. tabs/rows on Android can need a second tap. NetInfo's
+# emit + the store update + the re-render take a beat; extendedWaitUntil absorbs
+# the propagation delay instead of a fixed sleep.
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-qbittorrent' }
+    centerElement: true
+- tapOn:
+    id: 'row-qbittorrent'
+    repeat: 2
+- assertVisible: { id: 'screen-qbittorrent' }
+- extendedWaitUntil:
+    visible: { id: 'settings-offline-state' }
+    timeout: 20000
+- assertVisible: { id: 'settings-offline-state' }
+
+# ── Step 2: back online — the paused query resumes and the real form loads. ──
+- setAirplaneMode: disabled
+- extendedWaitUntil:
+    visible: { id: 'qbt-host' }
+    timeout: 30000
+- assertVisible: { id: 'qbt-host' }

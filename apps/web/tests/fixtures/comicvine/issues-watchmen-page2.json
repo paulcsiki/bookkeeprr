@@ -1,0 +1,13 @@
+{
+  "error": "OK",
+  "limit": 5,
+  "offset": 5,
+  "number_of_page_results": 3,
+  "number_of_total_results": 8,
+  "status_code": 1,
+  "results": [
+    { "id": 1006, "issue_number": "5", "name": "Fearful Symmetry", "cover_date": "1987-01-01" },
+    { "id": 1007, "issue_number": "Annual 1", "name": "An Annual", "cover_date": "1987-06-01" },
+    { "id": 1008, "issue_number": "6", "name": "The Abyss Gazes Also", "cover_date": "1987-02-01" }
+  ]
+}

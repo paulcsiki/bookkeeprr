@@ -1,0 +1,1 @@
+ALTER TABLE `quality_profiles` ADD `is_default` integer DEFAULT false NOT NULL;

@@ -1,0 +1,20 @@
+appId: com.bookkeeprr.app
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml does its own launchApp clearState — double-launching crashes
+# Android and flakes iOS (see library-list.yaml / calendar.yaml).
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- tapOn: { text: 'Settings' }
+- scrollUntilVisible:
+    element: { id: 'row-users' }
+    centerElement: true
+- tapOn: { id: 'row-users' }
+- assertVisible: { id: 'screen-users' }
+# iOS collapses a Pressable's child Texts into ONE accessibility element, so a
+# bare-text assert on 'paul' (inside the user-row Pressable) fails on device —
+# assert row testIDs instead (row 1 = paul/admin, row 2 = sofia in fixtureUsers).
+- assertVisible: { id: 'user-row-1' }
+- assertVisible: { id: 'user-row-2' }

@@ -1,0 +1,27 @@
+name: iOS · fastlane
+
+on: { workflow_dispatch: {} }
+
+jobs:
+  beta:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    if: vars.IOS_ENROLLMENT == 'true'
+    env:
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      ASC_API_KEY_ID: ${{ secrets.ASC_API_KEY_ID }}
+      ASC_API_KEY_ISSUER_ID: ${{ secrets.ASC_API_KEY_ISSUER_ID }}
+      ASC_API_KEY: ${{ secrets.ASC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with: { version: '9.15.0', run_install: false }
+      - uses: actions/setup-node@v5
+        with: { node-version: '22', cache: pnpm }
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: '3.3', bundler-cache: true }
+      - run: gem install fastlane
+      - run: fastlane ios beta

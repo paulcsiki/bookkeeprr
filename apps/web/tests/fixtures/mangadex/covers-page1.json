@@ -1,0 +1,73 @@
+{
+  "result": "ok",
+  "response": "collection",
+  "data": [
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000001",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "1",
+        "fileName": "vol1-aaa.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000002",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "1",
+        "fileName": "vol1-dup.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000003",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "2",
+        "fileName": "vol2-bbb.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000004",
+      "type": "cover_art",
+      "attributes": {
+        "volume": null,
+        "fileName": "no-volume.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000005",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "none",
+        "fileName": "none-volume.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000006",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "0",
+        "fileName": "zero-volume.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000007",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "1.5",
+        "fileName": "non-int-volume.jpg"
+      }
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000008",
+      "type": "cover_art",
+      "attributes": {
+        "volume": "3",
+        "fileName": null
+      }
+    }
+  ],
+  "limit": 100,
+  "offset": 0,
+  "total": 8
+}

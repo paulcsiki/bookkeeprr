@@ -1,0 +1,45 @@
+appId: com.bookkeeprr.app
+# Real-server library-groups flow: the seeded group renders at the library
+# root, descending shows its member series, and the back chip returns.
+#
+# Unlike the mocked groups-*.yaml flows this drives a LIVE bookkeeprr server:
+# the groups tree comes from the real /api/library/groups and the membership
+# from the real /api/series rows. Prerequisites (the iOS real-server CI job
+# provides all of these):
+#   1. apps/web running with BOOKKEEPRR_E2E_LOGIN_BYPASS=1, the seeded user
+#      (apps/web/scripts/e2e-seed-user.ts), and the seeded readables + group
+#      (apps/web/scripts/e2e-seed-readables.ts) — on a fresh e2e DB:
+#      'Seed Group' = group 1, its member 'Seed Grouped' = series 3.
+#   2. The server reachable from the device at $BOOKKEEPRR_E2E_SERVER_URL.
+#   3. Metro bundling with EXPO_PUBLIC_MOBILE_E2E=1 + _REAL_SERVER=1 +
+#      _AUTOAUTH=1 (same bundle as connected-real-server.yaml).
+#
+# Run with the URL injected as a Maestro param:
+#   maestro test -e BOOKKEEPRR_E2E_SERVER_URL=http://localhost:3000 \
+#     tests/e2e/library/groups-real.yaml
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_REAL_SERVER: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# Onboard against the real server (launchApp clearState lives in the subflow —
+# double-launching crashes Android and flakes iOS). Ends on the library grid.
+- runFlow: { file: ../onboarding/connected-real-server.yaml }
+
+# The seeded group's row renders once the live groups query resolves.
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 15000
+- tapOn: { id: 'group-row-1' }
+- assertVisible: { id: 'group-back-chip' }
+
+# The member series ('Seed Grouped' → series 3 on a fresh e2e DB) is inside.
+- extendedWaitUntil:
+    visible: { id: 'grid-card-3' }
+    timeout: 15000
+
+# Back to the root: the group row is visible again.
+- tapOn: { id: 'group-back-chip' }
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000

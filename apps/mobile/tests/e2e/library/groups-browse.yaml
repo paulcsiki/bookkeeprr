@@ -1,0 +1,31 @@
+appId: com.bookkeeprr.app
+# Library groups — browse: the root shows the GROUPS section, descending into
+# a group shows its members + the back chip, and the chip returns to the root.
+# Runs against the in-app fetch mock (src/lib/e2e-fetch-mock.ts), whose
+# initial state is one root group 'Shonen' (group-row-1) containing
+# Chainsaw Man (fixtureSeries id 7 → grid-card-7).
+env:
+  EXPO_PUBLIC_MOBILE_E2E: '1'
+  EXPO_PUBLIC_MOBILE_E2E_AUTOAUTH: '1'
+---
+# connected.yaml owns launchApp + onboarding (with proper waits) and lands on
+# btn-go-library — same pattern as the other library/* flows.
+- runFlow: { file: ../onboarding/connected.yaml }
+- tapOn: { id: 'btn-go-library' }
+- assertVisible: { id: 'screen-library-grid' }
+# The groups section renders once /api/library/groups resolves.
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000
+- tapOn: { id: 'group-row-1' }
+# Inside the group: back chip + the member's card (testID, never the title
+# text — iOS collapses Pressable children into one element).
+- assertVisible: { id: 'group-back-chip' }
+- extendedWaitUntil:
+    visible: { id: 'grid-card-7' }
+    timeout: 10000
+# Back to the root: the groups section is visible again.
+- tapOn: { id: 'group-back-chip' }
+- extendedWaitUntil:
+    visible: { id: 'group-row-1' }
+    timeout: 10000

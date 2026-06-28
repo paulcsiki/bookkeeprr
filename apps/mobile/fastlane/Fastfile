@@ -1,0 +1,20 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build + push to TestFlight"
+  lane :beta do
+    match(type: "appstore", readonly: true)
+    sh("cd .. && pnpm install --frozen-lockfile")
+    sh("cd ../ios && pod install")
+    build_app(workspace: "../ios/Bookkeeprr.xcworkspace", scheme: "Bookkeeprr")
+    pilot(skip_waiting_for_build_processing: true)
+  end
+end
+
+platform :android do
+  desc "Build release AAB"
+  lane :release do
+    sh("cd .. && pnpm install --frozen-lockfile")
+    gradle(project_dir: "../android", task: "bundleRelease")
+  end
+end

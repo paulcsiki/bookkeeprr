@@ -1,0 +1,49 @@
+{
+  "data": {
+    "Page": {
+      "media": [
+        {
+          "id": 21355,
+          "title": {
+            "english": "Re:Zero -Starting Life in Another World-",
+            "romaji": "Re:Zero kara Hajimeru Isekai Seikatsu",
+            "native": "Re:ゼロから始める異世界生活"
+          },
+          "coverImage": {
+            "extraLarge": "https://example.com/rezero-xl.jpg",
+            "large": "https://example.com/rezero-l.jpg",
+            "medium": "https://example.com/rezero-m.jpg"
+          },
+          "status": "RELEASING",
+          "format": "LIGHT_NOVEL",
+          "startDate": { "year": 2014 },
+          "volumes": 32,
+          "chapters": null,
+          "staff": {
+            "edges": [
+              {
+                "role": "Story",
+                "node": { "name": { "full": "Tappei Nagatsuki", "native": "長月達平" } }
+              },
+              {
+                "role": "Illustration",
+                "node": { "name": { "full": "Shinichirou Otsuka", "native": "大塚真一郎" } }
+              }
+            ]
+          }
+        },
+        {
+          "id": 99999,
+          "title": { "english": "No Staff Novel", "romaji": null, "native": null },
+          "coverImage": null,
+          "status": "FINISHED",
+          "format": "LIGHT_NOVEL",
+          "startDate": null,
+          "volumes": 1,
+          "chapters": null,
+          "staff": { "edges": [] }
+        }
+      ]
+    }
+  }
+}
